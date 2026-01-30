@@ -4,13 +4,13 @@ Class {
 	#instVars : [
 		'value'
 	],
-	#category : 'En-Example',
+	#category : 'En-Testing Models',
 	#package : 'En',
-	#tag : 'Example'
+	#tag : 'Testing Models'
 }
 
-{ #category : 'accessing' }
-Age >> age [
+{ #category : 'evaluating' }
+Age >> value [ 
 
 	^ value
 ]

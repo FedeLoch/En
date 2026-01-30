@@ -4,19 +4,13 @@ Class {
 	#instVars : [
 		'age'
 	],
-	#category : 'En-Example',
+	#category : 'En-Testing Models',
 	#package : 'En',
-	#tag : 'Example'
+	#tag : 'Testing Models'
 }
 
 { #category : 'accessing' }
 Person >> age [
-
-	^ age age 
-]
-
-{ #category : 'accessing' }
-Person >> age: anAge [
-
-	age := anAge
+	
+	^ age value
 ]
