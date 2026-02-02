@@ -9,19 +9,14 @@ Class {
 	#tag : 'Grammar'
 }
 
-{ #category : 'as yet unclassified' }
-EnInstanceDeclaration >> gen: aContext [
-	
-	1 halt.
-	^ instanceVariableDeclarations inject: type new into: [ :inst :instDecl |
-		"TODO: consider constraints later"
-		inst instVarNamed: instDecl name put: (grammar gen: instDecl type).
-		inst
-	]  
-]
-
 { #category : 'accessing' }
 EnInstanceDeclaration >> instanceVariableDeclarations: decls [ 
 
 	instanceVariableDeclarations := decls
+]
+
+{ #category : 'visiting' }
+EnInstanceDeclaration >> visit: generator from: context [
+
+	^ generator visitInstanceDeclaration: self from: context 
 ]

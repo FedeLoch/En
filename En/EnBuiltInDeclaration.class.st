@@ -6,8 +6,8 @@ Class {
 	#tag : 'Grammar'
 }
 
-{ #category : 'as yet unclassified' }
-EnBuiltInDeclaration >> gen: aContext [
+{ #category : 'visiting' }
+EnBuiltInDeclaration >> visit: generator from: context [
 
-	^ type gen: aContext
+	^ generator visitBuiltinDeclaration: self from: context 
 ]

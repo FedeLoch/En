@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'grammar'
 	],
-	#category : 'En-Generator',
+	#category : 'En-Parsing',
 	#package : 'En',
-	#tag : 'Generator'
+	#tag : 'Parsing'
 }
 
 { #category : 'accessing' }
@@ -18,7 +18,8 @@ EnGenerator >> gen: type [
 { #category : 'accessing' }
 EnGenerator >> gen: declarationObject from: context [
 
-	^ declarationObject gen: context
+	^ declarationObject visit: self from: context
+
 ]
 
 { #category : 'accessing' }
@@ -31,4 +32,29 @@ EnGenerator >> grammar [
 EnGenerator >> grammar: aGrammar [
 
 	grammar := aGrammar
+]
+
+{ #category : 'visiting' }
+EnGenerator >> visitBuiltinDeclaration: decl from: context [
+	1 halt.
+	
+	"type gen: aContext"
+]
+
+{ #category : 'visiting' }
+EnGenerator >> visitClassDeclaration: decl from: context [ 
+
+	1 halt.
+]
+
+{ #category : 'visiting' }
+EnGenerator >> visitInstanceDeclaration: decl from: context [ 
+
+	1 halt.
+"	
+	instanceVariableDeclarations inject: type new into: [ :inst :instDecl |
+		""TODO: consider constraints later""
+		inst instVarNamed: instDecl name put: (grammar gen: instDecl type).
+		inst
+	]  "
 ]

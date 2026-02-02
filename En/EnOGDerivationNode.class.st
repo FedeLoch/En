@@ -1,5 +1,5 @@
 Class {
-	#name : 'EnOGNode',
+	#name : 'EnOGDerivationNode',
 	#superclass : 'Object',
 	#instVars : [
 		'declaration',
@@ -11,14 +11,14 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-EnOGNode >> instantiate [
+EnOGDerivationNode >> instantiate [
 
 	"TODO: should return the obj that represent this object graph derivation"
 	1 halt.
 ]
 
 { #category : 'as yet unclassified' }
-EnOGNode >> recursiveBackPropagate: improvement from: context seen: set [
+EnOGDerivationNode >> recursiveBackPropagate: improvement from: context seen: set [
 
 	1 halt.
 ]

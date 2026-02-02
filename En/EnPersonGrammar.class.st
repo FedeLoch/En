@@ -1,9 +1,9 @@
 Class {
 	#name : 'EnPersonGrammar',
 	#superclass : 'EnOGGrammar',
-	#category : 'En-Grammar',
+	#category : 'En-Grammar Tests',
 	#package : 'En',
-	#tag : 'Grammar'
+	#tag : 'Grammar Tests'
 }
 
 { #category : 'accessing' }
