@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : 'accessing' }
+EnInstanceDeclaration >> instanceVariableDeclarations [
+
+	^ instanceVariableDeclarations
+]
+
+{ #category : 'accessing' }
 EnInstanceDeclaration >> instanceVariableDeclarations: decls [ 
 
 	instanceVariableDeclarations := decls

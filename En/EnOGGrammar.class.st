@@ -30,7 +30,7 @@ EnOGGrammar >> backpropagate: node improvement: improvement from: context [
 EnOGGrammar >> builtInTypeDeclarations [
 
 	^ builtInTypes inject: Dictionary new into: [ :dict :type |
-		dict at: type put: (EnBuiltInDeclaration new type: type).
+		dict at: type put: (EnBuiltInDeclaration new type: type; grammar: self).
 		dict
 	]
 ]

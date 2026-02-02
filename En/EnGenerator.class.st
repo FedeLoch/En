@@ -36,9 +36,9 @@ EnGenerator >> grammar: aGrammar [
 
 { #category : 'visiting' }
 EnGenerator >> visitBuiltinDeclaration: decl from: context [
-	1 halt.
 	
-	"type gen: aContext"
+	^ EnOGBuiltInNode new declaration: decl; context: context
+
 ]
 
 { #category : 'visiting' }
@@ -50,7 +50,17 @@ EnGenerator >> visitClassDeclaration: decl from: context [
 { #category : 'visiting' }
 EnGenerator >> visitInstanceDeclaration: decl from: context [ 
 
-	1 halt.
+	^ decl instanceVariableDeclarations inject: (EnOGInstanceNode new declaration: decl; context: context) into: [ :node :instVarDecl |
+		node addEdge: (self visitInstanceVariableDeclaration: instVarDecl from: context) at: instVarDecl name.
+		node.
+	]
+]
+
+{ #category : 'visiting' }
+EnGenerator >> visitInstanceVariableDeclaration: instVarDecl from: context [
+
+	^ (grammar typeDeclarations at: (instVarDecl type)) visit: self from: context
+
 "	
 	instanceVariableDeclarations inject: type new into: [ :inst :instDecl |
 		""TODO: consider constraints later""
