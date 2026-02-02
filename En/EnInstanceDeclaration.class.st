@@ -9,6 +9,13 @@ Class {
 	#tag : 'Grammar'
 }
 
+{ #category : 'initialization' }
+EnInstanceDeclaration >> initialize [ 
+	
+	super initialize.
+	instanceVariableDeclarations := OrderedCollection new.
+]
+
 { #category : 'accessing' }
 EnInstanceDeclaration >> instanceVariableDeclarations [
 

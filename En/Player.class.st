@@ -13,6 +13,12 @@ Class {
 }
 
 { #category : 'accessing' }
+Player >> characterClass [
+
+	^ characterClass
+]
+
+{ #category : 'accessing' }
 Player >> characterClass: aCharacterClass [
 
 	characterClass := aCharacterClass 

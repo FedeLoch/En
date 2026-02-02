@@ -9,6 +9,12 @@ Class {
 	#tag : 'Parsing'
 }
 
+{ #category : 'as yet unclassified' }
+EnGenerator >> emptyInstanceDeclaration: aClass [
+
+	^ EnInstanceDeclaration new type: aClass
+]
+
 { #category : 'accessing' }
 EnGenerator >> gen: type [
 
@@ -59,12 +65,13 @@ EnGenerator >> visitInstanceDeclaration: decl from: context [
 { #category : 'visiting' }
 EnGenerator >> visitInstanceVariableDeclaration: instVarDecl from: context [
 
-	^ (grammar typeDeclarations at: (instVarDecl type)) visit: self from: context
-
-"	
-	instanceVariableDeclarations inject: type new into: [ :inst :instDecl |
-		""TODO: consider constraints later""
-		inst instVarNamed: instDecl name put: (grammar gen: instDecl type).
-		inst
-	]  "
+	| type declaration |
+	
+	type := instVarDecl type getOne.
+	
+	declaration := grammar typeDeclarations at: type ifPresent: [ :decl | decl ] ifAbsent: [
+		self emptyInstanceDeclaration: type
+	].
+	
+	^ declaration visit: self from: context
 ]
