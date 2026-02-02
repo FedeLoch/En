@@ -33,14 +33,15 @@ EnOGGrammar >> builtInTypeDeclarations [
 
 { #category : 'as yet unclassified' }
 EnOGGrammar >> gen: type [
-	
-	^ (typeDeclarations at: type) gen
+
+	^ self gen: (typeDeclarations at: type) from: EnContext new
 ]
 
 { #category : 'as yet unclassified' }
-EnOGGrammar >> gen: derivationObject from: context [
+EnOGGrammar >> gen: declarationObject from: context [
 
-	1 halt.
+	"TODO: use the context"
+	^ (declarationObject gen: context) instantiate
 ]
 
 { #category : 'accessing' }
@@ -54,5 +55,5 @@ EnOGGrammar >> initialize [
 { #category : 'accessing' }
 EnOGGrammar >> typeDeclarations: declarations [
 
-	declarations do: [ :decl | self addTypeDeclaration: decl ].
+	declarations do: [ :decl | self addTypeDeclaration: decl ]
 ]

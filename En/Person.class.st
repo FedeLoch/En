@@ -14,3 +14,11 @@ Person >> age [
 	
 	^ age value
 ]
+
+{ #category : 'accessing' }
+Person >> model [
+	
+	"	Person -> { age: Age }.
+		Age -> { value: SmallInteger }
+	"
+]
