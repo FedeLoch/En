@@ -25,9 +25,21 @@ Player >> characterClass: aCharacterClass [
 ]
 
 { #category : 'accessing' }
+Player >> level [
+
+	^ level
+]
+
+{ #category : 'accessing' }
 Player >> level: aLevel [
 
 	level := aLevel
+]
+
+{ #category : 'accessing' }
+Player >> missingExperienceForNextLevel [
+
+	^ missingExperienceForNextLevel
 ]
 
 { #category : 'accessing' }
@@ -46,6 +58,12 @@ Player >> model [
 			missingExperienceForNextLevel: { type: SmallInteger, constraints: { greaterThan: 0 } }
 		}.
 	"
+]
+
+{ #category : 'accessing' }
+Player >> name [
+
+	^ name
 ]
 
 { #category : 'accessing' }

@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-EnOGInstanceNode >> instantiate [
+EnOGInstanceNode >> getInstance [
 
 	^ edges keys inject: declaration type new into: [ :inst :edgeName |
 		"TODO: Consider the 'context | constraints'"

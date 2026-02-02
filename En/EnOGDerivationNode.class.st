@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'declaration',
 		'edges',
-		'context'
+		'context',
+		'instance'
 	],
 	#category : 'En-Parsing',
 	#package : 'En',
@@ -29,6 +30,12 @@ EnOGDerivationNode >> declaration: anEnInstanceDeclaration [
 	declaration := anEnInstanceDeclaration
 ]
 
+{ #category : 'as yet unclassified' }
+EnOGDerivationNode >> getInstance [
+
+	self subclassResponsibility 
+]
+
 { #category : 'initialization' }
 EnOGDerivationNode >> initialize [ 
 	
@@ -39,7 +46,9 @@ EnOGDerivationNode >> initialize [
 { #category : 'as yet unclassified' }
 EnOGDerivationNode >> instantiate [
 
-	self subclassResponsibility 
+	instance ifNil: [ instance := self getInstance ].
+	
+	^ instance
 ]
 
 { #category : 'as yet unclassified' }

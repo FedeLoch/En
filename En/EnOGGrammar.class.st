@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'typeDeclarations',
 		'builtInTypeDeclarations',
-		'builtInTypes',
 		'generator',
 		'parser'
 	],
@@ -29,8 +28,18 @@ EnOGGrammar >> backpropagate: node improvement: improvement from: context [
 { #category : 'accessing' }
 EnOGGrammar >> builtInTypeDeclarations [
 
-	^ builtInTypes inject: Dictionary new into: [ :dict :type |
-		dict at: type put: (EnBuiltInDeclaration new type: type; grammar: self).
+	| builtinTypesDefinition |
+
+	builtinTypesDefinition := {
+		SmallInteger -> EnSmallIntegerGenerator.
+		Float -> EnFloatGenerator.
+		Boolean -> EnBooleanGenerator.
+		String -> EnStringGenerator
+	}.
+
+	^ builtinTypesDefinition inject: Dictionary new into: [ :dict :assoc | | type |
+		type := assoc key.
+		dict at: type put: (EnBuiltInDeclaration new type: type; grammar: self; generator: assoc value new).
 		dict
 	]
 ]
@@ -51,7 +60,6 @@ EnOGGrammar >> gen: declarationObject from: context [
 EnOGGrammar >> initialize [
 
 	super initialize.
-	builtInTypes := { SmallInteger . Float . Boolean . String }.
 	typeDeclarations := self builtInTypeDeclarations.
 	generator := EnGenerator new grammar: self.
 	parser := EnParser new grammar: self.

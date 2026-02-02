@@ -7,8 +7,8 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-EnOGBuiltInNode >> instantiate [
+EnOGBuiltInNode >> getInstance [
 	
 	"TODO: consider the context | constraints "
-	^ declaration type gen
+	^ declaration generator generate
 ]
