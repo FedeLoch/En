@@ -1,5 +1,5 @@
 Class {
-	#name : 'EnGrammar',
+	#name : 'EnPlayerGrammar',
 	#superclass : 'EnOGGrammar',
 	#category : 'En-Grammar',
 	#package : 'En',

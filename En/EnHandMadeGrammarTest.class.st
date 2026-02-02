@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'grammar'
 	],
-	#category : 'En-Grammar',
+	#category : 'En-Grammar Tests',
 	#package : 'En',
-	#tag : 'Grammar'
+	#tag : 'Grammar Tests'
 }
 
 { #category : 'running' }

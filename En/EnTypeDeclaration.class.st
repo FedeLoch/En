@@ -11,10 +11,11 @@ Class {
 	#tag : 'Grammar'
 }
 
-{ #category : 'as yet unclassified' }
-EnTypeDeclaration >> gen [
+{ #category : 'accessing' }
+EnTypeDeclaration >> gen: aContext [
 
-	^ type gen
+	"NOTE: This generate a tree derivation"
+	self subclassResponsibility 
 ]
 
 { #category : 'accessing' }

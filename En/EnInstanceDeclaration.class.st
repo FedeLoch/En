@@ -10,8 +10,9 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-EnInstanceDeclaration >> gen [
+EnInstanceDeclaration >> gen: aContext [
 	
+	1 halt.
 	^ instanceVariableDeclarations inject: type new into: [ :inst :instDecl |
 		"TODO: consider constraints later"
 		inst instVarNamed: instDecl name put: (grammar gen: instDecl type).

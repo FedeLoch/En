@@ -5,3 +5,9 @@ Class {
 	#package : 'En',
 	#tag : 'Grammar'
 }
+
+{ #category : 'as yet unclassified' }
+EnBuiltInDeclaration >> gen: aContext [
+
+	^ type gen: aContext
+]
