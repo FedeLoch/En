@@ -70,7 +70,7 @@ EnBlocGrammar >> initialize [
 	self addTypeDeclaration: (EnInstDecl new type: BlCustomVisuals; instanceVariableDeclarations:{
 		EnInstVarDecl new name: 'background'; type: (BlPaintBackground | BlTransparentBackground).
 		EnInstVarDecl new name: 'geometry'; type: (BlRectangleGeometry | BlEllipseGeometry | BlTriangleGeometry).
-		EnInstVarDecl new name: 'clipChildren:'; type: Boolean.
+		EnInstVarDecl new name: 'clipChildren'; type: Boolean.
 	}).
 	
 	self addTypeDeclaration: (EnInstDecl new type: BlLayoutCommonConstraints; instanceVariableDeclarations: { 	
