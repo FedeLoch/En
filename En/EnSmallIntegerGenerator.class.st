@@ -27,5 +27,5 @@ EnSmallIntegerGenerator >> generateWithConstraint: aConstraint [
 EnSmallIntegerGenerator >> initialize [ 
 	
 	super initialize.
-	generator := PBTGrammarGenerator new grammar: DecimalGrammar new.
+	generator := UmeGrammarGenerator new grammar: DecimalGrammar new.
 ]

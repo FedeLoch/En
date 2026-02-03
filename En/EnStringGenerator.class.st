@@ -19,5 +19,5 @@ EnStringGenerator >> generate [
 EnStringGenerator >> initialize [ 
 	
 	super initialize.
-	generator := PBTGrammarGenerator new grammar: StringGrammar new.
+	generator := UmeGrammarGenerator new grammar: StringGrammar new.
 ]
