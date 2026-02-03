@@ -63,6 +63,7 @@ EnBlocGrammar >> initialize [
 		EnInstVarDecl new name: 'constraints'; type: BlLayoutCommonConstraints.
 	}).
 	
+	"Cómo hago esto ? El array no puede ser un builtin, tiene que ser generada la derivación con el array"
 	self addTypeDeclaration: (EnInstDecl new type: BlChildrenArray; instanceVariableDeclarations: {
 		EnInstVarDecl new name: 'array'; type: (EnArray of: BlElement); constraint: (EnArrayConstraint sizeBetween: 0 and: 30)
 	}).
