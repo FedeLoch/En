@@ -1,6 +1,6 @@
 Class {
-	#name : 'EnInstanceVariableDeclaration',
-	#superclass : 'EnDeclaration',
+	#name : 'EnInstVarDecl',
+	#superclass : 'EnDecl',
 	#instVars : [
 		'name',
 		'constraint'
@@ -11,37 +11,37 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-EnInstanceVariableDeclaration >> chooseOneType [
+EnInstVarDecl >> chooseOneType [
 
 	^ type getOne
 ]
 
 { #category : 'as yet unclassified' }
-EnInstanceVariableDeclaration >> chooseOneTypeFrom: context [
+EnInstVarDecl >> chooseOneTypeFrom: context [
 
 	^ type getOneFrom: context
 ]
 
 { #category : 'accessing' }
-EnInstanceVariableDeclaration >> constraint [
+EnInstVarDecl >> constraint [
 
 	^ constraint
 ]
 
 { #category : 'accessing' }
-EnInstanceVariableDeclaration >> constraint: aConstraint [
+EnInstVarDecl >> constraint: aConstraint [
 
 	constraint := aConstraint 
 ]
 
 { #category : 'accessing' }
-EnInstanceVariableDeclaration >> name [
+EnInstVarDecl >> name [
 
 	^ name
 ]
 
 { #category : 'accessing' }
-EnInstanceVariableDeclaration >> name: instanceVariableName [
+EnInstVarDecl >> name: instanceVariableName [
 
 	name := instanceVariableName 
 ]

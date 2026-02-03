@@ -1,6 +1,6 @@
 Class {
-	#name : 'EnInstanceDeclaration',
-	#superclass : 'EnTypeDeclaration',
+	#name : 'EnInstDecl',
+	#superclass : 'EnTypeDecl',
 	#instVars : [
 		'instanceVariableDeclarations'
 	],
@@ -10,26 +10,26 @@ Class {
 }
 
 { #category : 'initialization' }
-EnInstanceDeclaration >> initialize [ 
+EnInstDecl >> initialize [ 
 	
 	super initialize.
 	instanceVariableDeclarations := OrderedCollection new.
 ]
 
 { #category : 'accessing' }
-EnInstanceDeclaration >> instanceVariableDeclarations [
+EnInstDecl >> instanceVariableDeclarations [
 
 	^ instanceVariableDeclarations
 ]
 
 { #category : 'accessing' }
-EnInstanceDeclaration >> instanceVariableDeclarations: decls [ 
+EnInstDecl >> instanceVariableDeclarations: decls [ 
 
 	instanceVariableDeclarations := decls
 ]
 
 { #category : 'visiting' }
-EnInstanceDeclaration >> visiting: aVisitor from: context [
+EnInstDecl >> visiting: aVisitor from: context [
 
 	^ aVisitor visitInstanceDeclaration: self from: context 
 ]

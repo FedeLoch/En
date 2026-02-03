@@ -20,15 +20,10 @@ EnPersonGrammar >> initialize [
 	
 	super initialize.
 	
-	self addTypeDeclaration: (EnInstanceDeclaration new type: Person; instanceVariableDeclarations: {
-		EnInstanceVariableDeclaration new name: 'age'; type: Age 
+	self addTypeDeclaration: (EnInstDecl new type: Person; instanceVariableDeclarations: {
+		EnInstVarDecl new name: 'age'; type: Age 
 	}).
-	self addTypeDeclaration: (EnInstanceDeclaration new type: Age; instanceVariableDeclarations: {
-		EnInstanceVariableDeclaration new name: 'value'; type: SmallInteger 
+	self addTypeDeclaration: (EnInstDecl new type: Age; instanceVariableDeclarations: {
+		EnInstVarDecl new name: 'value'; type: SmallInteger 
 	}).
-	
-		"
-		Person -> { age: Age }.
-		Age -> { value: SmallInteger }
-	"
 ]

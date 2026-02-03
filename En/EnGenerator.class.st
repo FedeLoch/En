@@ -12,7 +12,7 @@ Class {
 { #category : 'as yet unclassified' }
 EnGenerator >> emptyInstanceDeclaration: aClass [
 
-	^ EnInstanceDeclaration new type: aClass
+	^ EnInstDecl new type: aClass
 ]
 
 { #category : 'accessing' }
@@ -94,7 +94,7 @@ EnGenerator >> visitInstanceVariableDeclaration: instVarDecl from: context [
 	
 	"Pass constraint through for built-in types"
 	"TODO: review this, don't use if"
-	(declaration isKindOf: EnBuiltInDeclaration) ifTrue: [
+	(declaration isKindOf: EnBuiltInDecl) ifTrue: [
 		^ self visitBuiltinDeclaration: declaration from: context constraint: instVarDecl constraint
 	].
 	

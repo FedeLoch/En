@@ -23,6 +23,12 @@ EnConstraint class >> greaterThan: aValue [
 ]
 
 { #category : 'as yet unclassified' }
+EnConstraint class >> oneOf: array [
+
+	^ self new universe: array
+]
+
+{ #category : 'as yet unclassified' }
 EnConstraint >> universe [ 
 
 	^ universe

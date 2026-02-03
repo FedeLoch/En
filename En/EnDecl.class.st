@@ -1,5 +1,5 @@
 Class {
-	#name : 'EnDeclaration',
+	#name : 'EnDecl',
 	#superclass : 'Object',
 	#instVars : [
 		'rewards',
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : 'initialization' }
-EnDeclaration >> initialize [ 
+EnDecl >> initialize [ 
 
 	super initialize.
 	rewards := Dictionary new.
@@ -20,19 +20,19 @@ EnDeclaration >> initialize [
 ]
 
 { #category : 'accessing' }
-EnDeclaration >> type [
+EnDecl >> type [
 
 	^ type
 ]
 
 { #category : 'accessing' }
-EnDeclaration >> type: aType [
+EnDecl >> type: aType [
 
 	type := aType 
 ]
 
 { #category : 'as yet unclassified' }
-EnDeclaration >> updateReward: improvement context: context [
+EnDecl >> updateReward: improvement context: context [
 
 	rewards at: context ifAbsentPut: [ 1 ].
 	
@@ -40,7 +40,7 @@ EnDeclaration >> updateReward: improvement context: context [
 ]
 
 { #category : 'as yet unclassified' }
-EnDeclaration >> updateVisits: context [
+EnDecl >> updateVisits: context [
 
 	visits at: context ifAbsentPut: [ 0 ].
 	
@@ -48,14 +48,14 @@ EnDeclaration >> updateVisits: context [
 ]
 
 { #category : 'visiting' }
-EnDeclaration >> visit: generator from: context [
+EnDecl >> visit: generator from: context [
 
 	self updateVisits: context.
 	^ self visiting: generator from: context
 ]
 
 { #category : 'visiting' }
-EnDeclaration >> visiting: generator from: context [
+EnDecl >> visiting: generator from: context [
 
 	self subclassResponsibility 
 ]

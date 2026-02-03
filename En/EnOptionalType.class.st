@@ -6,9 +6,9 @@ Class {
 		'rewards',
 		'visits'
 	],
-	#category : 'En-Grammar',
+	#category : 'En-Custom Types',
 	#package : 'En',
-	#tag : 'Grammar'
+	#tag : 'Custom Types'
 }
 
 { #category : 'accessing' }

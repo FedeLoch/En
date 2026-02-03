@@ -1,6 +1,6 @@
 Class {
-	#name : 'EnTypeDeclaration',
-	#superclass : 'EnDeclaration',
+	#name : 'EnTypeDecl',
+	#superclass : 'EnDecl',
 	#instVars : [
 		'grammar'
 	],
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : 'accessing' }
-EnTypeDeclaration >> grammar: aGrammar [
+EnTypeDecl >> grammar: aGrammar [
 
 	grammar := aGrammar 
 ]

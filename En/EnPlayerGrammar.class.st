@@ -13,8 +13,8 @@ EnPlayerGrammar >> defineGrammar [
 		Player -> {
 			name: String,
 			characterClass: Warrior | Rogue | Mage,
-			level: { type: SmallInteger, constraint: between: 0 and: 99 },
-			missingExperienceForNextLevel: { type: SmallInteger, constraint: greaterThan: 0 }
+			level: { type: SmallInteger, between: 0 and: 99 },
+			missingExperienceForNextLevel: { type: SmallInteger, greaterThan: 0 }
 		}.
 	'
 ]
@@ -24,10 +24,10 @@ EnPlayerGrammar >> initialize [
 
 	super initialize.
 	
-	self addTypeDeclaration: (EnInstanceDeclaration new type: Player; instanceVariableDeclarations: {
-		EnInstanceVariableDeclaration new name: 'name'; type: String.
-		EnInstanceVariableDeclaration new name: 'characterClass'; type: (Warrior | Rogue | Mage).
-		EnInstanceVariableDeclaration new name: 'level'; type: SmallInteger; constraint: (EnConstraint between: 0 and: 99).
-		EnInstanceVariableDeclaration new name: 'missingExperienceForNextLevel'; type: SmallInteger; constraint: (EnConstraint greaterThan: 0).
+	self addTypeDeclaration: (EnInstDecl new type: Player; instanceVariableDeclarations: {
+		EnInstVarDecl new name: 'name'; type: String.
+		EnInstVarDecl new name: 'characterClass'; type: (Warrior | Rogue | Mage).
+		EnInstVarDecl new name: 'level'; type: SmallInteger; constraint: (EnConstraint between: 0 and: 99).
+		EnInstVarDecl new name: 'missingExperienceForNextLevel'; type: SmallInteger; constraint: (EnConstraint greaterThan: 0).
 	}).
 ]

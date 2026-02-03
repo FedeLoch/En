@@ -1,6 +1,6 @@
 Class {
-	#name : 'EnBuiltInDeclaration',
-	#superclass : 'EnTypeDeclaration',
+	#name : 'EnBuiltInDecl',
+	#superclass : 'EnTypeDecl',
 	#instVars : [
 		'generator'
 	],
@@ -10,19 +10,19 @@ Class {
 }
 
 { #category : 'accessing' }
-EnBuiltInDeclaration >> generator [
+EnBuiltInDecl >> generator [
 
 	^ generator
 ]
 
 { #category : 'accessing' }
-EnBuiltInDeclaration >> generator: aGenerator [
+EnBuiltInDecl >> generator: aGenerator [
 
 	generator := aGenerator 
 ]
 
 { #category : 'visiting' }
-EnBuiltInDeclaration >> visiting: aVisitor from: context [
+EnBuiltInDecl >> visiting: aVisitor from: context [
 
 	^ aVisitor visitBuiltinDeclaration: self from: context 
 ]

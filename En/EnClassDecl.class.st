@@ -1,13 +1,13 @@
 Class {
-	#name : 'EnClassDeclaration',
-	#superclass : 'EnTypeDeclaration',
+	#name : 'EnClassDecl',
+	#superclass : 'EnTypeDecl',
 	#category : 'En-Grammar',
 	#package : 'En',
 	#tag : 'Grammar'
 }
 
 { #category : 'visiting' }
-EnClassDeclaration >> visiting: aVisitor from: context [
+EnClassDecl >> visiting: aVisitor from: context [
 
 	^ aVisitor visitClassDeclaration: self from: context 
 ]

@@ -39,7 +39,7 @@ EnOGGrammar >> builtInTypeDeclarations [
 
 	^ builtinTypesDefinition inject: Dictionary new into: [ :dict :assoc | | type |
 		type := assoc key.
-		dict at: type put: (EnBuiltInDeclaration new type: type; grammar: self; generator: assoc value new).
+		dict at: type put: (EnBuiltInDecl new type: type; grammar: self; generator: assoc value new).
 		dict
 	]
 ]
