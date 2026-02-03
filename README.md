@@ -103,43 +103,43 @@ player level.           "=> 47 (always 0-99)"
 ### Example 3: Bloc Element Grammar
 
 ```smalltalk
-		BlElement -> {
-			children: BlElementArray,
-			visuals: BlCustomVisuals,
-			constraints: BlLayoutCommonConstraints
-		}.
+	BlElement -> {
+		children: BlElementArray,
+		visuals: BlCustomVisuals,
+		constraints: BlLayoutCommonConstraints
+	}.
 		
-		BlElementArray -> { 
-			array: { type: [ BlElement ], sizeBetween: 0 and: 30 }
-		}.
+	BlElementArray -> { 
+		array: { type: [ BlElement ], sizeBetween: 0 and: 30 }
+	}.
 		
-		BlCustomVisuals -> { 
-			background: (BlPaintBackground | BlTransparentBackground),
-			geometry: (BlRectangleGeometry | BlElipseGeometry | BlTriangleGeometry),
-			clipChildren: Boolean,
-		}.
+	BlCustomVisuals -> { 
+		background: (BlPaintBackground | BlTransparentBackground),
+		geometry: (BlRectangleGeometry | BlElipseGeometry | BlTriangleGeometry),
+		clipChildren: Boolean,
+	}.
 		
-		BlLayoutCommonConstraints -> {
-			position: Point,
-			vertical: BlLayoutCommonConstraintsAxis,
-			horizontal: BlLayoutCommonConstraintsAxis
-		}.
+	BlLayoutCommonConstraints -> {
+		position: Point,
+		vertical: BlLayoutCommonConstraintsAxis,
+		horizontal: BlLayoutCommonConstraintsAxis
+	}.
 		
-		BlLayoutCommonConstraintsAxis -> {
-			resizer: BlLayoutExactResizer
-		}.
+	BlLayoutCommonConstraintsAxis -> {
+		resizer: BlLayoutExactResizer
+	}.
 		
-		BlLayoutExactResizer -> {
-			size: SmallInteger
-		}.
+	BlLayoutExactResizer -> {
+		size: SmallInteger
+	}.
 		
-		BlPaintBackground -> {
-			paint: Color
-		}.
+	BlPaintBackground -> {
+		paint: Color
+	}.
 		
-		BlTriangleGeometry -> {
-			orientation: { oneOf: { #top . #right . #left . #bottom } }
-		}
+	BlTriangleGeometry -> {
+		orientation: { oneOf: { #top . #right . #left . #bottom } }
+	}
 ```
 
 ```smalltalk
