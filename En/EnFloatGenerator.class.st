@@ -16,9 +16,10 @@ EnFloatGenerator >> generate [
 { #category : 'translating' }
 EnFloatGenerator >> generateWithConstraint: aConstraint [
 
+	| min max |
+
 	aConstraint ifNil: [ ^ self generate ].
 	
-	| min max |
 	min := aConstraint universe first.
 	max := aConstraint universe last.
 	
