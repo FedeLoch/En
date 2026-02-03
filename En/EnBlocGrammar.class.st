@@ -28,7 +28,7 @@ EnBlocGrammar >> defineGrammar [
 		
 		BlLayoutCommonConstraints -> {
 			position: Point,
-			vertical: BlLayoutCommonConstraintsAxis.
+			vertical: BlLayoutCommonConstraintsAxis,
 			horizontal: BlLayoutCommonConstraintsAxis
 		}.
 		
@@ -45,7 +45,7 @@ EnBlocGrammar >> defineGrammar [
 		}.
 		
 		BlTriangleGeometry -> {
-			orientation: oneOf: { #top . #right . #left . #bottom }
+			orientation: { oneOf: { #top . #right . #left . #bottom } }
 		}
 	'
 	
