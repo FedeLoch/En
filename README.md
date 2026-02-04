@@ -10,8 +10,8 @@ Mate is an object graph language implementation that allows you to define gramma
 - [Mate Grammar Examples](https://github.com/FedeLoch/Mate/wiki/Grammar-Examples)
 - [How Mate Works](https://github.com/FedeLoch/Mate/wiki/How-Mate-Works)
 - [Derivation Model](https://github.com/FedeLoch/Mate/wiki/Derivation-Model)
-- [Fuzzing](https://github.com/FedeLoch/Mate/wiki/Fuzzing)
-- [Parsing](https://github.com/FedeLoch/Mate/wiki/Parsing)
+- [Object Graph Fuzzing](https://github.com/FedeLoch/Mate/wiki/Fuzzing)
+- [Object Graph Parsing](https://github.com/FedeLoch/Mate/wiki/Parsing)
 - [Object Graph Type Validation](https://github.com/FedeLoch/Mate/wiki/Object-Graph-Type-Validation)
 - [Dynamic Grammar Generation by Test Suites](https://github.com/FedeLoch/Mate/wiki/Dynamic-Grammar-generation-by-Test-Suites)
 
