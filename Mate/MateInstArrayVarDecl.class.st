@@ -32,7 +32,7 @@ MateInstArrayVarDecl >> sizeBetween: value and: anotherValue [
 ]
 
 { #category : 'visiting' }
-MateInstArrayVarDecl >> visiting: generator from: context [
+MateInstArrayVarDecl >> visiting: generator from: context constraint: aConstraint [
 
 	1 halt.
 ]

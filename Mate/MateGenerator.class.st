@@ -31,7 +31,7 @@ MateGenerator >> gen: type [
 { #category : 'accessing' }
 MateGenerator >> gen: declarationObject from: context [
 
-	^ declarationObject visit: self from: context
+	^ declarationObject visit: self from: context constraint: nil
 
 ]
 
@@ -94,6 +94,25 @@ MateGenerator >> visitClassDeclaration: decl from: context [
 ]
 
 { #category : 'visiting' }
+MateGenerator >> visitInstVarDecl: instVarDecl from: context [ 
+
+	| type declaration |
+	
+	type := instVarDecl chooseOneTypeFrom: context.
+	
+	declaration := grammar typeDeclarations at: type ifPresent: #yourself ifAbsent: [
+		self emptyInstanceDeclaration: type
+	].
+"
+	declaration isBuiltin ifTrue: [
+		^ self genBuiltinDerivation declaration from: context constraint: instVarDecl constraint
+	]."
+
+	^ declaration visit: self from: context constraint: instVarDecl constraint
+
+]
+
+{ #category : 'visiting' }
 MateGenerator >> visitInstanceDeclaration: decl from: context [ 
 
 	| childContext node |
@@ -105,38 +124,13 @@ MateGenerator >> visitInstanceDeclaration: decl from: context [
 	node := MateOGInstanceNode new declaration: decl; context: childContext.
 	
 	decl instanceVariableDeclarations do: [ :instVarDecl | | edge |
-		edge := instVarDecl visit: self from: childContext.
+		edge := instVarDecl visit: self from: childContext constraint: nil.
 		node addEdge: edge at: instVarDecl name.
 	].
 
 	node instance: (self objectInstance: node constraint: nil).
 
 	^ node
-]
-
-{ #category : 'visiting' }
-MateGenerator >> visitInstanceVariableDeclaration: instVarDecl from: context [
-
-	"TODO: DELETE ME"
-
-	| type declaration |
-	
-	type := instVarDecl chooseOneTypeFrom: context.
-	1halt.
-	
-	"Puede ser una instancia de un objecto"
-	
-	declaration := grammar typeDeclarations at: type ifPresent: [ :decl | decl ] ifAbsent: [
-		self emptyInstanceDeclaration: type
-	].
-	
-	"Pass constraint through for built-in types"
-	"TODO: review this, don't use if"
-	(declaration isKindOf: MateBuiltInDecl) ifTrue: [
-		^ self visitBuiltinDeclaration: declaration from: context constraint: instVarDecl constraint
-	].
-	
-	^ declaration visit: self from: context
 ]
 
 { #category : 'visiting' }

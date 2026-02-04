@@ -31,7 +31,8 @@ MateBlocGrammarTest >> testGrammarCanGenerateABlLayoutExactResizer [
 	
 	gen := grammar gen: BlLayoutExactResizer.
 
-	self assert: (gen class) equals: SmallInteger.
+	self assert: (gen class) equals: BlLayoutExactResizer.
+	self assert: (gen size class) equals: SmallInteger.
 ]
 
 { #category : 'tests' }

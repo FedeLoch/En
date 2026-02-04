@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : 'visiting' }
-MateClassDecl >> visiting: aVisitor from: context [
+MateClassDecl >> visiting: aVisitor from: context constraint: aConstraint [
 
 	^ aVisitor visitClassDeclaration: self from: context 
 ]

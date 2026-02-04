@@ -2,7 +2,8 @@ Class {
 	#name : 'MateInstVarDecl',
 	#superclass : 'MateDecl',
 	#instVars : [
-		'name'
+		'name',
+		'constraint'
 	],
 	#category : 'Mate-Grammar',
 	#package : 'Mate',
@@ -22,6 +23,18 @@ MateInstVarDecl >> chooseOneTypeFrom: context [
 ]
 
 { #category : 'accessing' }
+MateInstVarDecl >> constraint [
+
+	^ constraint
+]
+
+{ #category : 'accessing' }
+MateInstVarDecl >> constraint: aConstraint [
+
+	constraint := aConstraint
+]
+
+{ #category : 'accessing' }
 MateInstVarDecl >> name [
 
 	^ name
@@ -34,7 +47,7 @@ MateInstVarDecl >> name: instanceVariableName [
 ]
 
 { #category : 'visiting' }
-MateInstVarDecl >> visiting: generator from: context [
+MateInstVarDecl >> visiting: aVisitor from: context constraint: aConstraint [
 
-	1 halt.
+	^ aVisitor visitInstVarDecl: self from: context
 ]

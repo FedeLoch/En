@@ -29,7 +29,7 @@ MateInstOneOfVarDecl >> options: someOptions [
 ]
 
 { #category : 'visiting' }
-MateInstOneOfVarDecl >> visiting: aVisitor from: context [
+MateInstOneOfVarDecl >> visiting: aVisitor from: context constraint: aConstraint [
 
 	^ aVisitor visitOneOfDecl: self from: context 
 ]

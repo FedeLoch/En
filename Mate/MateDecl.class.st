@@ -48,15 +48,15 @@ MateDecl >> updateVisits: context [
 ]
 
 { #category : 'visiting' }
-MateDecl >> visit: generator from: context [
+MateDecl >> visit: generator from: context constraint: aConstraint [
 
 	self updateVisits: context.
 
-	^ self visiting: generator from: context
+	^ self visiting: generator from: context constraint: aConstraint
 ]
 
 { #category : 'visiting' }
-MateDecl >> visiting: generator from: context [
+MateDecl >> visiting: generator from: context constraint: aConstraint [
 
 	self subclassResponsibility 
 ]

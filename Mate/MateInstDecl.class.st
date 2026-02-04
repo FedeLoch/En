@@ -29,7 +29,7 @@ MateInstDecl >> instanceVariableDeclarations: decls [
 ]
 
 { #category : 'visiting' }
-MateInstDecl >> visiting: aVisitor from: context [
+MateInstDecl >> visiting: aVisitor from: context constraint: aConstraint [
 
 	^ aVisitor visitInstanceDeclaration: self from: context 
 ]
