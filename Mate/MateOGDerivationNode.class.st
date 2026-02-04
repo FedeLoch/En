@@ -18,6 +18,12 @@ MateOGDerivationNode >> addEdge: anEdge at: key [
 	edges at: key put: anEdge
 ]
 
+{ #category : 'converting' }
+MateOGDerivationNode >> asLabel [
+	
+	^ RSLabel new text: declaration name; color: Color black.
+]
+
 { #category : 'accessing' }
 MateOGDerivationNode >> context [
 
@@ -82,4 +88,39 @@ MateOGDerivationNode >> recursiveBackPropagate: improvement from: aContext seen:
 	edges valuesDo: [ :childNode |
 		childNode recursiveBackPropagate: improvement from: aContext seen: set.
 	].
+]
+
+{ #category : 'rendering' }
+MateOGDerivationNode >> render [
+	
+	| canvas shapes |
+	
+	shapes := self shapes.
+	canvas := RSCanvas new.
+	canvas addAll: shapes.
+	
+	RSLineBuilder arrowedLine withBorderAttachPoint; canvas: canvas; connectFrom: [ :e | e context parentNode ].
+	RSTreeLayout on: canvas nodes.
+	
+	canvas @ RSCanvasController.
+	^ canvas
+]
+
+{ #category : 'accessing' }
+MateOGDerivationNode >> shape [
+	
+	| label circle color |
+	
+	label := self asLabel.
+	color := RSColorPalette sequential blues3 range first.
+	
+	circle := RSEllipse new extent: label extent + 10; color: color.
+	
+	^ RSComposite new draggable; model: self; shapes: (RSGroup with: circle with: label)
+]
+
+{ #category : 'accessing' }
+MateOGDerivationNode >> shapes [
+	
+	^ { self shape }, (edges flatCollect: #shapes)
 ]

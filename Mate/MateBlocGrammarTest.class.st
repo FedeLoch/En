@@ -25,12 +25,22 @@ MateBlocGrammarTest >> testGrammarCanGenerateABlElement [
 ]
 
 { #category : 'tests' }
+MateBlocGrammarTest >> testGrammarCanGenerateABlLayoutExactResizer [
+
+	| gen |
+	
+	gen := grammar gen: BlLayoutExactResizer.
+
+	self assert: (gen class) equals: SmallInteger.
+]
+
+{ #category : 'tests' }
 MateBlocGrammarTest >> testGrammarCanGenerateABlTriangleGeometry [
 
 	| gen |
 	
 	gen := grammar gen: BlTriangleGeometry.
-
+	
 	self assert: (gen class) equals: BlTriangleGeometry.
 	self assert: ({ #top . #right . #left . #bottom } includes: (gen orientation))
 ]

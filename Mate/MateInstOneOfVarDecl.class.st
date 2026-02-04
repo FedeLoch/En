@@ -9,6 +9,13 @@ Class {
 	#tag : 'Grammar'
 }
 
+{ #category : 'as yet unclassified' }
+MateInstOneOfVarDecl >> getOne: aMateContext [ 
+
+	"TODO: use the rewards here"
+	^ options atRandom.
+]
+
 { #category : 'accessing' }
 MateInstOneOfVarDecl >> options [
 

@@ -117,6 +117,8 @@ MateGenerator >> visitInstanceDeclaration: decl from: context [
 { #category : 'visiting' }
 MateGenerator >> visitInstanceVariableDeclaration: instVarDecl from: context [
 
+	"TODO: DELETE ME"
+
 	| type declaration |
 	
 	type := instVarDecl chooseOneTypeFrom: context.
@@ -135,4 +137,14 @@ MateGenerator >> visitInstanceVariableDeclaration: instVarDecl from: context [
 	].
 	
 	^ declaration visit: self from: context
+]
+
+{ #category : 'visiting' }
+MateGenerator >> visitOneOfDecl: decl from: context [ 
+
+	| instance |
+	"TODO: Delete MateOGBuiltInNode and use only one node type?"
+	instance := decl getOne: context.
+
+	^ MateOGBuiltInNode new declaration: decl; instance: instance; context: context
 ]

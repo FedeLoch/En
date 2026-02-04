@@ -53,6 +53,12 @@ MateBlocGrammar >> defineGrammar [
 ]
 
 { #category : 'accessing' }
+MateBlocGrammar >> generator [
+
+	^ generator 
+]
+
+{ #category : 'accessing' }
 MateBlocGrammar >> initialize [ 
 
 	super initialize.

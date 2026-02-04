@@ -14,3 +14,9 @@ MateTypeDecl >> grammar: aGrammar [
 
 	grammar := aGrammar 
 ]
+
+{ #category : 'accessing' }
+MateTypeDecl >> name [
+
+	^ type name 
+]
