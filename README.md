@@ -1,10 +1,10 @@
-# En - Object Graph Language
+# Mate - Object Graph Language
 
 <p align="center">
   <img src="images/mate.png" alt="Logo" width="150"/>
 </p>
 
-En is an object graph language implementation that allows you to define grammars representing software system structures and generate valid object instances from those grammars. It supports:
+Mate is an object graph language implementation that allows you to define grammars representing software system structures and generate valid object instances from those grammars. It supports:
 
 - **Type constraints** — Specify valid ranges for primitive types
 - **Polymorphic types** — Use `|` operator for type alternatives
@@ -15,8 +15,8 @@ En is an object graph language implementation that allows you to define grammars
 
 ```Smalltalk
 Metacello new
-    baseline: 'En';
-    repository: 'github://FedeLoch/En:main';
+    baseline: 'Mate';
+    repository: 'github://FedeLoch/Mate:main';
     onConflictUseIncoming;
     load.
 ```
@@ -31,21 +31,21 @@ Define a `Person` with an `Age`:
 ```
 
 ```smalltalk
-EnPersonGrammar >> initialize
+MatePersonGrammar >> initialize
     super initialize.
     
-	self addTypeDeclaration: (EnInstDecl new type: Person; instanceVariableDeclarations: {
-		EnInstVarDecl new name: 'age'; type: Age 
+	self addTypeDeclaration: (MateInstDecl new type: Person; instanceVariableDeclarations: {
+		MateInstVarDecl new name: 'age'; type: Age 
 	}).
-	self addTypeDeclaration: (EnInstDecl new type: Age; instanceVariableDeclarations: {
-		EnInstVarDecl new name: 'value'; type: SmallInteger 
+	self addTypeDeclaration: (MateInstDecl new type: Age; instanceVariableDeclarations: {
+		MateInstVarDecl new name: 'value'; type: SmallInteger 
 	}).
 ```
 
 Generate instances:
 
 ```smalltalk
-grammar := EnPersonGrammar new.
+grammar := MatePersonGrammar new.
 person := grammar gen: Person.
 
 person age.  "=> 42 (random SmallInteger)"
@@ -56,7 +56,7 @@ person age.  "=> 42 (random SmallInteger)"
 Use `|` for type alternatives:
 
 ```smalltalk
-EnInstVarDecl new 
+MateInstVarDecl new 
     name: 'characterClass'; 
     type: (Warrior | Rogue | Mage).
 ```
@@ -66,10 +66,10 @@ EnInstVarDecl new
 Add constraints to limit generated values:
 
 ```smalltalk
-EnInstanceVariableDeclaration new 
+MateInstanceVariableDeclaration new 
     name: 'level'; 
     type: SmallInteger; 
-    constraint: (EnConstraint between: 0 and: 99).
+    constraint: (MateConstraint between: 0 and: 99).
 ```
 
 ### Example 2: Player Grammar
@@ -84,19 +84,19 @@ EnInstanceVariableDeclaration new
 ```
 
 ```smalltalk
-EnPlayerGrammar >> initialize
+MatePlayerGrammar >> initialize
     super initialize.
     
-	self addTypeDeclaration: (EnInstDecl new type: Player; instanceVariableDeclarations: {
-		EnInstVarDecl new name: 'name'; type: String.
-		EnInstVarDecl new name: 'characterClass'; type: (Warrior | Rogue | Mage).
-		EnInstVarDecl new name: 'level'; type: SmallInteger; constraint: (EnConstraint between: 0 and: 99).
-		EnInstVarDecl new name: 'missingExperienceForNextLevel'; type: SmallInteger; constraint: (EnConstraint greaterThan: 0).
+	self addTypeDeclaration: (MateInstDecl new type: Player; instanceVariableDeclarations: {
+		MateInstVarDecl new name: 'name'; type: String.
+		MateInstVarDecl new name: 'characterClass'; type: (Warrior | Rogue | Mage).
+		MateInstVarDecl new name: 'level'; type: SmallInteger; constraint: (MateConstraint between: 0 and: 99).
+		MateInstVarDecl new name: 'missingExperienceForNextLevel'; type: SmallInteger; constraint: (MateConstraint greaterThan: 0).
 	}).
 ```
 
 ```smalltalk
-grammar := EnPlayerGrammar new.
+grammar := MatePlayerGrammar new.
 player := grammar gen: Player.
 
 player name.            "=> 'xyz123'"
@@ -147,45 +147,45 @@ player level.           "=> 47 (always 0-99)"
 ```
 
 ```smalltalk
-EnPlayerGrammar >> initialize
+MatePlayerGrammar >> initialize
     super initialize.
     
-    self addTypeDeclaration: (EnInstDecl new type: BlElement; instanceVariableDeclarations: { 	
-		EnInstVarDecl new name: 'children'; type: BlChildrenArray.
-		EnInstVarDecl new name: 'visuals'; type: BlCustomVisuals.
-		EnInstVarDecl new name: 'constraints'; type: BlLayoutCommonConstraints.
+    self addTypeDeclaration: (MateInstDecl new type: BlElement; instanceVariableDeclarations: { 	
+		MateInstVarDecl new name: 'children'; type: BlChildrenArray.
+		MateInstVarDecl new name: 'visuals'; type: BlCustomVisuals.
+		MateInstVarDecl new name: 'constraints'; type: BlLayoutCommonConstraints.
 	}).
 	
-	self addTypeDeclaration: (EnInstDecl new type: BlChildrenArray; instanceVariableDeclarations: {
-		EnInstVarDecl new name: 'array'; type: (EnArray of: BlElement); constraint: (EnArrayConstraint sizeBetween: 0 and: 30)
+	self addTypeDeclaration: (MateInstDecl new type: BlChildrenArray; instanceVariableDeclarations: {
+		MateInstVarDecl new name: 'array'; type: (MateArray of: BlElement); constraint: (MateArrayConstraint sizeBetween: 0 and: 30)
 	}).
 	
-	self addTypeDeclaration: (EnInstDecl new type: BlCustomVisuals; instanceVariableDeclarations:{
-		EnInstVarDecl new name: 'background'; type: (BlPaintBackground | BlTransparentBackground).
-		EnInstVarDecl new name: 'geometry'; type: (BlRectangleGeometry | BlEllipseGeometry | BlTriangleGeometry).
-		EnInstVarDecl new name: 'clipChildren'; type: Boolean.
+	self addTypeDeclaration: (MateInstDecl new type: BlCustomVisuals; instanceVariableDeclarations:{
+		MateInstVarDecl new name: 'background'; type: (BlPaintBackground | BlTransparentBackground).
+		MateInstVarDecl new name: 'geometry'; type: (BlRectangleGeometry | BlEllipseGeometry | BlTriangleGeometry).
+		MateInstVarDecl new name: 'clipChildren'; type: Boolean.
 	}).
 	
-	self addTypeDeclaration: (EnInstDecl new type: BlLayoutCommonConstraints; instanceVariableDeclarations: { 	
-		EnInstVarDecl new name: 'position'; type: Point.
-		EnInstVarDecl new name: 'vertical'; type: BlLayoutCommonConstraintsAxis.
-		EnInstVarDecl new name: 'horizontal'; type: BlLayoutCommonConstraintsAxis.
+	self addTypeDeclaration: (MateInstDecl new type: BlLayoutCommonConstraints; instanceVariableDeclarations: { 	
+		MateInstVarDecl new name: 'position'; type: Point.
+		MateInstVarDecl new name: 'vertical'; type: BlLayoutCommonConstraintsAxis.
+		MateInstVarDecl new name: 'horizontal'; type: BlLayoutCommonConstraintsAxis.
 	}).
 	
-	self addTypeDeclaration: (EnInstDecl new type: BlLayoutCommonConstraintsAxis; instanceVariableDeclarations: {
-		EnInstVarDecl new name: 'resizer'; type: BlLayoutExactResizer.
+	self addTypeDeclaration: (MateInstDecl new type: BlLayoutCommonConstraintsAxis; instanceVariableDeclarations: {
+		MateInstVarDecl new name: 'resizer'; type: BlLayoutExactResizer.
 	}).
 	
-	self addTypeDeclaration: (EnInstDecl new type: BlLayoutExactResizer; instanceVariableDeclarations: {
-		EnInstVarDecl new name: 'size'; type: SmallInteger.
+	self addTypeDeclaration: (MateInstDecl new type: BlLayoutExactResizer; instanceVariableDeclarations: {
+		MateInstVarDecl new name: 'size'; type: SmallInteger.
 	}).
 	
-	self addTypeDeclaration: (EnInstDecl new type: BlPaintBackground; instanceVariableDeclarations: {
-		EnInstVarDecl new name: 'paint'; type: Color.
+	self addTypeDeclaration: (MateInstDecl new type: BlPaintBackground; instanceVariableDeclarations: {
+		MateInstVarDecl new name: 'paint'; type: Color.
 	}).
 	
-	self addTypeDeclaration: (EnInstDecl new type: BlTriangleGeometry; instanceVariableDeclarations: {
-		EnInstVarDecl new name: 'orientation'; constraint: (EnConstraint oneOf: { #top . #right . #left . #bottom }).
+	self addTypeDeclaration: (MateInstDecl new type: BlTriangleGeometry; instanceVariableDeclarations: {
+		MateInstVarDecl new name: 'orientation'; constraint: (MateConstraint oneOf: { #top . #right . #left . #bottom }).
 	}).
 ```
 
@@ -195,10 +195,10 @@ EnPlayerGrammar >> initialize
 Propagate rewards through the derivation tree to improve future generations:
 
 ```smalltalk
-grammar := EnPlayerGrammar new.
-derivationTree := grammar gen: Player from: EnContext new.
+grammar := MatePlayerGrammar new.
+derivationTree := grammar gen: Player from: MateContext new.
 player := derivationTree instantiate.
 
 "After testing: propagate improvement score"
-grammar backpropagate: derivationTree improvement: 0.8 from: EnContext new.
+grammar backpropagate: derivationTree improvement: 0.8 from: MateContext new.
 ```
