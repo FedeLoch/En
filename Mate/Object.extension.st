@@ -8,7 +8,7 @@ Object class >> getOne [
 
 { #category : '*Mate' }
 Object class >> getOneFrom: context [
-	"For single types (not EnOptionalType), just return self ignoring context"
+	"For single types (not MateOptionalType), just return self ignoring context"
 	^ self
 ]
 

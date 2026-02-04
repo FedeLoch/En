@@ -37,9 +37,9 @@ MateOGDerivationNode >> declaration [
 ]
 
 { #category : 'accessing' }
-MateOGDerivationNode >> declaration: anEnInstanceDeclaration [ 
+MateOGDerivationNode >> declaration: aMateInstanceDeclaration [ 
 
-	declaration := anEnInstanceDeclaration
+	declaration := aMateInstanceDeclaration
 ]
 
 { #category : 'accessing' }

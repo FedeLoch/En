@@ -22,7 +22,7 @@ MateArray >> elementType: anElementType [
 ]
 
 { #category : 'as yet unclassified' }
-MateArray >> getOneFrom: anEnContext [ 
+MateArray >> getOneFrom: aMateContext [ 
 	
 	^ self class
 ]
