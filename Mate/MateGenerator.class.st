@@ -25,13 +25,17 @@ MateGenerator >> emptyInstanceDeclaration: aClass [
 { #category : 'accessing' }
 MateGenerator >> gen: type [
 
-	^ (self gen: (grammar typeDeclarations at: type) from: MateContext new) instance
+	^ (self gen: type from: MateContext new) instance
 ]
 
 { #category : 'accessing' }
-MateGenerator >> gen: declarationObject from: context [
+MateGenerator >> gen: type from: context [
 
-	^ declarationObject visit: self from: context constraint: nil
+	| decl |
+	
+	decl := (grammar typeDeclarations at: type).
+
+	^ decl visit: self from: context constraint: nil
 
 ]
 
@@ -69,6 +73,26 @@ MateGenerator >> objectInstance: node constraint: constraint [
 		inst instVarNamed: edgeName put: (node edges at: edgeName) instance.
 		inst
 	]
+]
+
+{ #category : 'visiting' }
+MateGenerator >> visitArrayDecl: decl from: context [
+
+	| node size edges childContext |
+	
+	childContext := context copy.
+	childContext push: decl.
+	size := (decl minSize to: decl maxSize) atRandom.
+	
+	node := MateOGDerivationNode new declaration: decl; context: childContext.
+	
+	edges := (1 to: size) collect: [ :i | | edge |
+		edge := self gen: decl elementType from: childContext.
+		node addEdge: edge at: i.
+		edge
+	].
+
+	^ node instance: (edges collect: #instance)
 ]
 
 { #category : 'visiting' }

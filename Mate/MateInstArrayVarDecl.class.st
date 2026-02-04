@@ -12,9 +12,27 @@ Class {
 }
 
 { #category : 'accessing' }
+MateInstArrayVarDecl >> elementType [
+
+	^ elementType
+]
+
+{ #category : 'accessing' }
 MateInstArrayVarDecl >> elementType: aType [
 
 	elementType := aType
+]
+
+{ #category : 'accessing' }
+MateInstArrayVarDecl >> maxSize [
+
+	^ maxSize
+]
+
+{ #category : 'accessing' }
+MateInstArrayVarDecl >> minSize [
+
+	^ minSize
 ]
 
 { #category : 'accessing' }
@@ -32,7 +50,7 @@ MateInstArrayVarDecl >> sizeBetween: value and: anotherValue [
 ]
 
 { #category : 'visiting' }
-MateInstArrayVarDecl >> visiting: generator from: context constraint: aConstraint [
+MateInstArrayVarDecl >> visiting: aVisitor from: context constraint: aConstraint [
 
-	1 halt.
+	^ aVisitor visitArrayDecl: self from: context
 ]
