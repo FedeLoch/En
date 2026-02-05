@@ -1,9 +1,9 @@
 Class {
 	#name : 'MateBlocGrammar',
 	#superclass : 'MateOGGrammar',
-	#category : 'Mate-Grammar Tests',
+	#category : 'Mate-Grammar Examples',
 	#package : 'Mate',
-	#tag : 'Grammar Tests'
+	#tag : 'Grammar Examples'
 }
 
 { #category : 'accessing' }
@@ -50,12 +50,6 @@ MateBlocGrammar >> defineGrammar [
 	'
 	
 
-]
-
-{ #category : 'accessing' }
-MateBlocGrammar >> generator [
-
-	^ generator 
 ]
 
 { #category : 'accessing' }

@@ -51,12 +51,24 @@ MateOGGrammar >> gen: declarationObject from: context [
 ]
 
 { #category : 'accessing' }
+MateOGGrammar >> generator [
+
+	^ generator 
+]
+
+{ #category : 'accessing' }
 MateOGGrammar >> initialize [
 
 	super initialize.
 	typeDeclarations := self builtInTypeDeclarations.
 	generator := MateGenerator new grammar: self.
 	parser := MateParser new grammar: self.
+]
+
+{ #category : 'accessing' }
+MateOGGrammar >> parser [
+
+	 ^ parser
 ]
 
 { #category : 'accessing' }

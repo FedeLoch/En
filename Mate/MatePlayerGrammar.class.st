@@ -1,9 +1,9 @@
 Class {
 	#name : 'MatePlayerGrammar',
 	#superclass : 'MateOGGrammar',
-	#category : 'Mate-Grammar Tests',
+	#category : 'Mate-Grammar Examples',
 	#package : 'Mate',
-	#tag : 'Grammar Tests'
+	#tag : 'Grammar Examples'
 }
 
 { #category : 'accessing' }
