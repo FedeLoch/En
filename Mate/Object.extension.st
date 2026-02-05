@@ -13,6 +13,12 @@ Object class >> getOneFrom: context [
 ]
 
 { #category : '*Mate' }
+Object class >> updateReward: improvement context: context [ 
+	
+	^ nil
+]
+
+{ #category : '*Mate' }
 Object class >> | aClass [ 
 	
 	^ MateOptionalType options: { self . aClass }

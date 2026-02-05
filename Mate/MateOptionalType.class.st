@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'optionTypes',
 		'rewards',
-		'visits'
+		'visits',
+		'lastSelected'
 	],
 	#category : 'Mate-Custom Types',
 	#package : 'Mate',
@@ -26,32 +27,11 @@ MateOptionalType >> getOne [
 
 { #category : 'as yet unclassified' }
 MateOptionalType >> getOneFrom: context [
-	"Select a type using UCB1 algorithm based on rewards and visits"
+
+	lastSelected := self selectAtype: context.
+	self updateVisits: context.
 	
-	| totalVisits bestType bestScore |
-	
-	"If not enough data, use random selection"
-	totalVisits := visits ifEmpty: [ 0 ] ifNotEmpty: [ visits values sum ].
-	totalVisits < (optionTypes size * 2) ifTrue: [ ^ self getOne ].
-	
-	bestType := nil.
-	bestScore := Float negativeInfinity.
-	
-	optionTypes do: [ :type |
-		| typeVisits typeReward ucbScore |
-		typeVisits := visits at: type ifAbsent: [ 1 ].
-		typeReward := rewards at: type ifAbsent: [ 1 ].
-		
-		"UCB1 formula: average reward + exploration bonus"
-		ucbScore := (typeReward / typeVisits) + (2 * ((totalVisits ln / typeVisits) sqrt)).
-		
-		ucbScore > bestScore ifTrue: [
-			bestScore := ucbScore.
-			bestType := type.
-		].
-	].
-	
-	^ bestType ifNil: [ self getOne ]
+	^ lastSelected
 ]
 
 { #category : 'initialization' }
@@ -75,18 +55,60 @@ MateOptionalType >> rewards [
 	^ rewards
 ]
 
-{ #category : 'reward' }
-MateOptionalType >> updateReward: improvement for: type [
+{ #category : 'as yet unclassified' }
+MateOptionalType >> selectAtype: context [
+"Select a type using UCB1 algorithm based on rewards and visits"
+	
+	| totalVisits bestType bestScore |
+	
+	1 halt.
+	"If not enough data, use random selection"
+	totalVisits := visits ifEmpty: [ 0 ] ifNotEmpty: [ visits values sum ].
+	totalVisits < (optionTypes size * 2) ifTrue: [ ^ self getOne ].
+	
+	bestType := nil.
+	bestScore := Float negativeInfinity.
+	
+	optionTypes do: [ :type |
+		| typeVisits typeReward ucbScore |
+		typeVisits := visits at: type ifAbsent: [ 1 ].
+		typeReward := rewards at: type ifAbsent: [ 1 ].
+		
+		"UCB1 formula: average reward + exploration bonus"
+		ucbScore := (typeReward / typeVisits) + (2 * ((totalVisits ln / typeVisits) sqrt)).
+		
+		ucbScore > bestScore ifTrue: [
+			bestScore := ucbScore.
+			bestType := type.
+		].
+	].
 
-	rewards at: type ifAbsentPut: [ 0 ].
-	rewards at: type update: [ :r | r + improvement ].
+	^ bestType ifNil: [ self getOne ]
+]
+
+{ #category : 'as yet unclassified' }
+MateOptionalType >> updateReward: improvement context: context [ 
+	
+	"TODO: not sure if I should use lastSelected"
+	| contextKey |
+	
+	contextKey := context key.
+	rewards at: lastSelected ifAbsentPut: [ Dictionary new ].
+	rewards at: lastSelected at: contextKey ifAbsentPut: [ 1 ].
+	
+	(rewards at: lastSelected) at: contextKey update: [ :reward | (reward + improvement) max: 1 ].
 ]
 
 { #category : 'reward' }
-MateOptionalType >> updateVisits: type [
+MateOptionalType >> updateVisits: context [
 
-	visits at: type ifAbsentPut: [ 0 ].
-	visits at: type update: [ :v | v + 1 ].
+	| contextKey |
+	contextKey := context key.
+
+	visits at: lastSelected ifAbsentPut: [ Dictionary new ].
+	visits at: lastSelected at: contextKey ifAbsentPut: [ 0 ].
+	
+	(visits at: lastSelected) at: contextKey update: [ :v | v + 1 ]
 ]
 
 { #category : 'accessing' }

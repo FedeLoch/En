@@ -11,12 +11,6 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-MateInstVarDecl >> chooseOneType [
-
-	^ type getOne
-]
-
-{ #category : 'as yet unclassified' }
 MateInstVarDecl >> chooseOneTypeFrom: context [
 
 	^ type getOneFrom: context

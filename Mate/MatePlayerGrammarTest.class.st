@@ -46,7 +46,6 @@ MatePlayerGrammarTest >> testGrammarSaveRewardOnCharacterClassProduction [
 	
 	playerDerivation := grammar generator gen: Player from: MateContext new.
 	
-	1 halt.
 	grammar backpropagate: playerDerivation improvement: 42.
 
 ]
