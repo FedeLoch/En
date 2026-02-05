@@ -6,9 +6,9 @@ Class {
 		'parentNode',
 		'level'
 	],
-	#category : 'Mate-Parsing',
+	#category : 'Mate-Generation',
 	#package : 'Mate',
-	#tag : 'Parsing'
+	#tag : 'Generation'
 }
 
 { #category : 'copying' }

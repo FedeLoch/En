@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'generator'
 	],
-	#category : 'Mate-BuiltIn Generators',
+	#category : 'Mate-Generation',
 	#package : 'Mate',
-	#tag : 'BuiltIn Generators'
+	#tag : 'Generation'
 }
 
 { #category : 'translating' }

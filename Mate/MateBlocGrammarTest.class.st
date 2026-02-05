@@ -1,9 +1,9 @@
 Class {
 	#name : 'MateBlocGrammarTest',
 	#superclass : 'MateHandMadeGrammarTest',
-	#category : 'Mate-Grammar Tests',
+	#category : 'Mate-Generation Tests',
 	#package : 'Mate',
-	#tag : 'Grammar Tests'
+	#tag : 'Generation Tests'
 }
 
 { #category : 'running' }

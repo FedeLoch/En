@@ -80,19 +80,19 @@ MateOGDerivationNode >> nodeColor [
 ]
 
 { #category : 'as yet unclassified' }
-MateOGDerivationNode >> recursiveBackPropagate: improvement from: aContext seen: set [
-	"Update this node's declaration and recursively propagate to children.
-	 The 'seen' set prevents infinite loops in cyclic graphs."
-
+MateOGDerivationNode >> recursiveBackPropagate: improvement seen: set [
+	"Update current node's declaration and recursively propagate to children."
+	 
+	"seen set prevents infinite loops in cyclic graphs."
 	(set includes: self) ifTrue: [ ^ self ].
 	set add: self.
 	
 	"Update this declaration's reward"
-	declaration updateReward: improvement context: aContext.
+	declaration updateReward: improvement context: context.
 	
 	"Propagate to all child edges"
-	edges valuesDo: [ :childNode |
-		childNode recursiveBackPropagate: improvement from: aContext seen: set.
+	edges valuesDo: [ :child |
+		child recursiveBackPropagate: improvement seen: set
 	].
 ]
 

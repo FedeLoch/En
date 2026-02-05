@@ -6,9 +6,9 @@ Class {
 		'builtInGenerators',
 		'maxDerivationHeight'
 	],
-	#category : 'Mate-Parsing',
+	#category : 'Mate-Generation',
 	#package : 'Mate',
-	#tag : 'Parsing'
+	#tag : 'Generation'
 }
 
 { #category : 'visiting' }

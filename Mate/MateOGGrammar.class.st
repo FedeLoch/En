@@ -20,9 +20,9 @@ MateOGGrammar >> addTypeDeclaration: decl [
 ]
 
 { #category : 'as yet unclassified' }
-MateOGGrammar >> backpropagate: node improvement: improvement from: context [
+MateOGGrammar >> backpropagate: node improvement: improvement [
 
-	node recursiveBackPropagate: improvement from: context seen: Set new
+	node recursiveBackPropagate: improvement seen: Set new
 ]
 
 { #category : 'accessing' }

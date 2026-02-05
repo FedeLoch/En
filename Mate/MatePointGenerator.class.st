@@ -1,9 +1,9 @@
 Class {
 	#name : 'MatePointGenerator',
 	#superclass : 'MateBuiltInGenerator',
-	#category : 'Mate-BuiltIn Generators',
+	#category : 'Mate-Generation',
 	#package : 'Mate',
-	#tag : 'BuiltIn Generators'
+	#tag : 'Generation'
 }
 
 { #category : 'translating' }

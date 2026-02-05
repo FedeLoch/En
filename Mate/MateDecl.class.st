@@ -34,8 +34,9 @@ MateDecl >> type: aType [
 { #category : 'as yet unclassified' }
 MateDecl >> updateReward: improvement context: context [
 
+	rewards at: context ifPresent: [ 1 halt. ].
 	rewards at: context ifAbsentPut: [ 1 ].
-	
+	1 halt.
 	rewards at: context update: [ :reward | (reward + improvement) max: 1 ]
 ]
 
