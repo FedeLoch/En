@@ -93,34 +93,137 @@ MateOGDerivationNode >> recursiveBackPropagate: improvement from: aContext seen:
 { #category : 'rendering' }
 MateOGDerivationNode >> render [
 	
-	| canvas shapes |
+	| canvas shapes lines |
 	
 	shapes := self shapes.
 	canvas := RSCanvas new.
 	canvas addAll: shapes.
 	
-	RSLineBuilder arrowedLine withBorderAttachPoint; canvas: canvas; connectFrom: [ :e | e context parentNode ].
-	RSTreeLayout on: canvas nodes.
+	"Build edges with labels"
+	lines := self buildEdgesOn: canvas.
+	canvas addAll: lines.
 	
+	"Apply horizontal tree layout for better readability"
+	RSHorizontalTreeLayout new 
+		horizontalGap: 50;
+		verticalGap: 30;
+		on: canvas nodes.
+	
+	"Add interactions"
 	canvas @ RSCanvasController.
+	canvas @ RSZoomToFitCanvasInteraction.
+	
+	"Add minimap for overview navigation"
+	canvas addInteraction: (RSMiniMap new 
+		extent: 150@100;
+		yourself).
+	
 	^ canvas
 ]
 
 { #category : 'accessing' }
 MateOGDerivationNode >> shape [
 	
-	| label circle color |
+	| label box color composite |
 	
 	label := self asLabel.
-	color := RSColorPalette sequential blues3 range first.
+	color := self nodeColor.
 	
-	circle := RSEllipse new extent: label extent + 10; color: color.
+	"Rounded rectangle with gradient"
+	box := RSBox new 
+		extent: (label extent + (20@16));
+		cornerRadius: 8;
+		color: color;
+		border: (RSBorder new 
+			width: 2; 
+			color: (color mixed: 0.7 with: Color black)).
 	
-	^ RSComposite new draggable; model: self; shapes: (RSGroup with: circle with: label)
+	composite := RSComposite new
+		draggable;
+		model: self;
+		shapes: (RSGroup with: box with: label);
+		yourself.
+	
+	"Add popup on hover"
+	composite @ (RSPopup new text: [ :node | node tooltipText ]).
+	
+	^ composite
 ]
 
 { #category : 'accessing' }
 MateOGDerivationNode >> shapes [
 	
-	^ { self shape }, (edges flatCollect: #shapes)
+	^ { self shape }, (edges flatCollect: [ :edge | edge shapes ])
 ]
+
+{ #category : 'rendering' }
+MateOGDerivationNode >> buildEdgesOn: canvas [
+	"Build labeled edges connecting parent to children"
+	
+	| lines |
+	lines := OrderedCollection new.
+	
+	edges keysAndValuesDo: [ :slotName :childNode |
+		| parentShape childShape line labelShape |
+		
+		parentShape := canvas shapeFromModel: self.
+		childShape := canvas shapeFromModel: childNode.
+		
+		(parentShape notNil and: [ childShape notNil ]) ifTrue: [
+			"Create curved arrow line"
+			line := RSBezier new
+				withVerticalAttachPoint;
+				from: parentShape;
+				to: childShape;
+				color: (Color gray alpha: 0.6);
+				border: (RSBorder new color: (Color gray alpha: 0.6); width: 1.5);
+				markerEnd: (RSShapeFactory arrow 
+					size: 10; 
+					color: (Color gray alpha: 0.8)).
+			
+			"Add edge label"
+			labelShape := RSLabel new
+				text: slotName asString;
+				fontSize: 9;
+				color: (Color gray darker);
+				yourself.
+			
+			line propertyAt: #label put: labelShape.
+			canvas add: labelShape.
+			
+			"Position label at midpoint of edge (will be adjusted after layout)"
+			line when: RSPositionChangedEvent do: [ :evt |
+				| mid |
+				mid := (line startPoint + line endPoint) / 2.
+				labelShape position: mid - (0@10).
+			].
+			
+			lines add: line.
+		].
+	].
+	
+	^ lines
+]
+
+{ #category : 'rendering' }
+MateOGDerivationNode >> nodeColor [
+	
+	^ Color fromHexString: '9B59B6'
+]
+
+{ #category : 'rendering' }
+MateOGDerivationNode >> tooltipText [
+		
+	^ String streamContents: [ :s |
+		s nextPutAll: 'Type: '; nextPutAll: declaration name asString.
+		instance ifNotNil: [ 
+			s cr; nextPutAll: 'Value: '; nextPutAll: instance printString truncateWithElipsisTo: 50.
+		].
+		context ifNotNil: [
+			context level ifNotNil: [ :lvl |
+				s cr; nextPutAll: 'Level: '; nextPutAll: lvl asString.
+			].
+		].
+	]
+]
+

@@ -21,3 +21,10 @@ MateOGInstanceNode >> recursiveBackPropagate: improvement from: aContext seen: s
 		childNode recursiveBackPropagate: improvement from: aContext seen: set.
 	].
 ]
+
+{ #category : 'rendering' }
+MateOGInstanceNode >> nodeColor [
+	
+	^ Color fromHexString: '3498DB'
+]
+

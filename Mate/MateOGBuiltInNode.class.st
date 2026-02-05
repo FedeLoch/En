@@ -5,3 +5,10 @@ Class {
 	#package : 'Mate',
 	#tag : 'Derivation Tree'
 }
+
+{ #category : 'rendering' }
+MateOGBuiltInNode >> nodeColor [
+
+	^ Color fromHexString: '27AE60'
+]
+
