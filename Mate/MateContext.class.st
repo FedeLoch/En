@@ -42,8 +42,8 @@ MateContext >> initialize [
 
 { #category : 'accessing' }
 MateContext >> key [
-	
-	^ { self path . self parentNode . self level }
+
+	^ { self path . self level }
 ]
 
 { #category : 'accessing' }

@@ -18,6 +18,7 @@ MateBlocGrammarTest >> testGrammarCanGenerateABlChildrenArray [
 	| gen |
 	
 	gen := grammar gen: BlChildrenArray.
+	
 	self assert: gen class equals: BlChildrenArray.
 	self assert: (gen array) class equals: Array.
 	self assert: ((0 to: 10) includes: gen array size).
@@ -29,7 +30,7 @@ MateBlocGrammarTest >> testGrammarCanGenerateABlCustomVisuals [
 	| gen |
 	
 	gen := grammar gen: BlCustomVisuals.
-	
+
 	self assert: gen class equals: BlCustomVisuals.
 	self assert: ({
 			 BlPaintBackground.
