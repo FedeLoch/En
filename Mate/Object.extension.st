@@ -13,7 +13,7 @@ Object class >> getOneFrom: context [
 ]
 
 { #category : '*Mate' }
-Object class >> updateReward: improvement context: context [ 
+Object class >> updateReward: improvement context: context from: decl [
 	
 	^ nil
 ]

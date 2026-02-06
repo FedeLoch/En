@@ -5,7 +5,6 @@ Class {
 		'optionTypes',
 		'rewards',
 		'visits',
-		'lastSelected',
 		'explorationConstant'
 	],
 	#category : 'Mate-Custom Types',
@@ -54,10 +53,13 @@ MateOptionalType >> getOne [
 { #category : 'as yet unclassified' }
 MateOptionalType >> getOneFrom: context [
 
-	lastSelected := self selectAtype: context.
-	self updateVisits: context.
+	| selected |
 	
-	^ lastSelected
+	selected := self selectAtype: context.
+
+	self updateVisits: context selecting: selected.
+	
+	^ selected
 ]
 
 { #category : 'initialization' }
@@ -104,28 +106,29 @@ MateOptionalType >> selectAtype: context [
 ]
 
 { #category : 'as yet unclassified' }
-MateOptionalType >> updateReward: improvement context: context [ 
+MateOptionalType >> updateReward: improvement context: context from: decl [
 	
-	"TODO: not sure if I should use lastSelected"
-	| key |
+	| key optionToReward |
 	
 	key := context key.
-	rewards at: key ifAbsentPut: [ Dictionary new ].
-	rewards at: key at: lastSelected ifAbsentPut: [ 1 ].
+	optionToReward := (context parentNode edges at: decl name) instance class.
 	
-	(rewards at: key) at: lastSelected update: [ :reward | (reward + improvement) max: 1 ].
+	rewards at: key ifAbsentPut: [ Dictionary new ].
+	rewards at: key at: optionToReward ifAbsentPut: [ 1 ].
+	
+	(rewards at: key) at: optionToReward update: [ :reward | (reward + improvement) max: 1 ].
 ]
 
 { #category : 'reward' }
-MateOptionalType >> updateVisits: context [
+MateOptionalType >> updateVisits: context selecting: selected [
 
 	| key |
 	
 	key := context key.
 	visits at: key ifAbsentPut: [ Dictionary new ].
-	visits at: key at: lastSelected ifAbsentPut: [ 0 ].
+	visits at: key at: selected ifAbsentPut: [ 0 ].
 	
-	(visits at: key) at: lastSelected update: [ :v | v + 1 ]
+	(visits at: key) at: selected update: [ :v | v + 1 ]
 ]
 
 { #category : 'accessing' }

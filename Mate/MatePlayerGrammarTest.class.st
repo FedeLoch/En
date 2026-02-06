@@ -20,8 +20,6 @@ MatePlayerGrammarTest >> testGrammarCanGenerateAPlayer [
 	
 	player := grammar gen: Player.
 	
-	1 halt.
-
 	self assert: (player class) equals: Player.
 	self assert: ({ Rogue . Warrior . Mage } includes: player characterClass class).
 ]
