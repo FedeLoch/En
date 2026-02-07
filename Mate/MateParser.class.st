@@ -25,6 +25,38 @@ MateParser >> parse: type from: context [
 ]
 
 { #category : 'visiting' }
+MateParser >> visitArrayDecl: decl from: context [
+
+	| array node childContext |
+	
+	array := context object.
+	
+	(array isCollection) ifFalse: [ 
+		self error: 'Expected collection in field ', decl name, ' but got ', array class name 
+	].
+
+	(decl acceptSize: array size) ifFalse: [
+		self error: 'Array size ', array size asString, ' not between ', decl minSize asString, ' and ', decl maxSize asString.
+	].
+
+	childContext := context copy.
+	childContext push: decl.
+	
+	node := MateOGInstanceNode new declaration: decl; context: context; instance: array.
+	childContext parentNode: node.
+	
+	array doWithIndex: [ :item :index | | specificContext itemNode |
+		specificContext := childContext copy.
+		specificContext object: item.
+
+		itemNode := self parse: decl elementType from: specificContext.
+		node addEdge: itemNode at: index.
+	].
+
+	^ node
+]
+
+{ #category : 'visiting' }
 MateParser >> visitBuiltinDeclaration: decl from: context constraint: aConstraint [
 
 	| instance |

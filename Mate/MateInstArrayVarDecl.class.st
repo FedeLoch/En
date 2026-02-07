@@ -11,6 +11,12 @@ Class {
 	#tag : 'Grammar'
 }
 
+{ #category : 'visiting' }
+MateInstArrayVarDecl >> acceptSize: size [ 
+	
+	^ size between: minSize and: maxSize 
+]
+
 { #category : 'accessing' }
 MateInstArrayVarDecl >> elementType [
 
