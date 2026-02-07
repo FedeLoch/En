@@ -6,6 +6,12 @@ Class {
 	#tag : 'Parsing'
 }
 
+{ #category : 'visiting' }
+MateParser >> nilNode: decl from: context [
+
+	^ MateOGInstanceNode new declaration: decl; context: context; instance: nil
+]
+
 { #category : 'parsing' }
 MateParser >> parse: obj [ 
 
@@ -78,6 +84,8 @@ MateParser >> visitInstVarDecl: instVarDecl from: context [
 	instance := context object.
 	type := instance class.
 	
+	instance ifNil: [ ^ self nilNode: instVarDecl from: context ].
+		
 	(instVarDecl acceptType: type) ifFalse: [
 		self error: 'Expected an instance of: ', instVarDecl types asString, ' in field: ', instVarDecl name, 'but it was:', type name
 	].
