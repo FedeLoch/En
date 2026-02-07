@@ -86,3 +86,17 @@ MateParser >> visitInstanceDeclaration: decl from: context [
 	
 	^ node
 ]
+
+{ #category : 'visiting' }
+MateParser >> visitOneOfDecl: decl from: context [
+
+	| instance |
+	
+	instance := context object.
+
+	(decl acceptOption: instance) ifFalse: [
+		self error: 'Expected one option of ', decl options asString, ' but got ', instance asString.
+	].
+
+	^ MateOGBuiltInNode new declaration: decl; instance: instance; context: context
+]

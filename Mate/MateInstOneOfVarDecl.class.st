@@ -11,6 +11,12 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+MateInstOneOfVarDecl >> acceptOption: option [
+	
+	^ options includes: option
+]
+
+{ #category : 'as yet unclassified' }
 MateInstOneOfVarDecl >> getBestRewardedOption: context [ 
 
 	"TODO: I am doing the same in MateOptionalType, maybe a can find an abstraction here"
