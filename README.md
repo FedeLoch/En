@@ -24,9 +24,10 @@ Mate is built on a systematic grammar-driven framework that decouples structural
 With Mate you can:
 - Declare your own Object Graph Grammars
 - Generate valid object instances from a grammar
+- Mate Object Graphs derivations visualization
 - Propagate rewards through the derivation tree to improve future generations
 - Parse and validate object graphs against your Mate grammar
-- Generate Mate Object graph Grammar definitions from test object suites (⚠️ Not implemented yet)
+- Generate Mate Object graph Grammar definitions from test object suites **(⚠️ Not implemented yet)**
 
 ## Quick Start
 
@@ -128,7 +129,17 @@ grammar := MateBlocGrammar new.
 element := grammar gen: BlElement.
 ```
 
-### Backpropagation
+### Object Graph Derivation Visualization
+
+```smalltalk
+grammar := MateBlocGrammar new.
+derivationTree := grammar gen: BlElement from: MateContext new.
+derivationTree render
+```
+
+![Player Derivation Tree](images/derivation.png)
+
+### Fuzzing Backpropagation
 
 Propagate rewards through the derivation tree to improve future generations:
 
