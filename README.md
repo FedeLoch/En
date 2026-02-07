@@ -34,7 +34,7 @@ Metacello new
 ## Examples
 
 
-### `Person` Object Graph Grammar:
+### Person Object Graph Grammar:
 
 ```smalltalk
 Person -> { age: Age }
@@ -50,7 +50,7 @@ person := grammar gen: Person.
 person age.  "=> 42 (random SmallInteger)"
 ```
 
-### `Player` Object Graph Grammar:
+### Player Object Graph Grammar:
 
 ```smalltalk
 Player -> {
@@ -72,7 +72,7 @@ player characterClass.  "=> a Warrior"
 player level.           "=> 47 (always 0-99)"
 ```
 
-### `Bloc Element` Object Graph Grammar
+### Bloc Element Object Graph Grammar
 
 ```smalltalk
 BlElement -> {
@@ -108,6 +108,7 @@ BlLayoutExactResizer -> {
 BlPaintBackground -> {
   paint: Color
 }
+
 BlTriangleGeometry -> {
   orientation: { oneOf: { #top . #right . #left . #bottom } }
 }
