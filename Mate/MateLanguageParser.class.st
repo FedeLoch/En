@@ -36,16 +36,25 @@ MateLanguageParser >> createArrayDeclFrom: dict [
 
 { #category : 'creation' }
 MateLanguageParser >> createConstrainedDeclFrom: dict [
-	| decl typeName type |
-	typeName := dict at: 'type'.
-	type := self resolveClass: typeName.
+	| decl typeSpec |
 	
-	decl := MateInstVarDecl new type: type.
+	typeSpec := dict at: 'type'.
+	
+	"Check if it's an array type definition: [ Type ]"
+	(typeSpec isCollection and: [ typeSpec isString not ]) ifTrue: [ 
+		decl := MateInstArrayVarDecl new.
+		decl elementType: (self resolveClass: typeSpec first).
+		
+		(dict includesKey: 'sizeBetween') ifTrue: [
+			decl sizeBetween: (dict at: 'sizeBetween') and: (dict at: 'and').
+		].
+		^ decl
+	].
+
+	"Regular type with constraints"
+	decl := MateInstVarDecl new type: (self resolveClass: typeSpec).
 	
 	(dict includesKey: 'between') ifTrue: [
-		"between: 0 and: 99 - this needs 'and' key in dict? No."
-		"Grammar: between: 0 and: 99"
-		"My parser sees: key 'between', val 0. key 'and', val 99."
 		decl constraint: (MateConstraint between: (dict at: 'between') and: (dict at: 'and')).
 	].
 	
