@@ -23,5 +23,5 @@ MateFloatGenerator >> generateWithConstraint: aConstraint [
 	min := aConstraint universe first.
 	max := aConstraint universe last.
 	
-	^ min + (Random new next * (max - min))
+	^ (min + (Random new next * (max - min))) asFloat
 ]

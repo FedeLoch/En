@@ -12,7 +12,7 @@ Class {
 { #category : 'translating' }
 MateSmallIntegerGenerator >> generate [
 
-	^ (generator gen: nil) asNumber
+	^ (SmallInteger minVal to: SmallInteger maxVal) atRandom 
 ]
 
 { #category : 'translating' }
@@ -20,7 +20,7 @@ MateSmallIntegerGenerator >> generateWithConstraint: aConstraint [
 
 	aConstraint ifNil: [ ^ self generate ].
 	
-	^ aConstraint universe atRandom
+	^ aConstraint universe atRandom asInteger
 ]
 
 { #category : 'initialization' }
