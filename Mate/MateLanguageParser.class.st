@@ -115,7 +115,6 @@ MateLanguageParser >> parse: aString [
 
 { #category : 'parsing' }
 MateLanguageParser >> parseComplexContent: stream [
-	"Parses { ... } content. Can be a Dictionary (key: val) or a List (val, val)."
 	
 	| pos isDict collection dict |
 	
@@ -124,22 +123,17 @@ MateLanguageParser >> parseComplexContent: stream [
 	
 	pos := stream position.
 	
-	"Check if it's empty"
 	(self match: '}' from: stream) ifTrue: [ ^ Dictionary new ].
-	
-	"Check first element to decide if Dict or List"
-	"If identifier followed by :, it's a Dict"
 	
 	self parseIdentifier: stream.
 	self skipWhitespace: stream.
 	isDict := (stream peek = $:).
 	
-	stream position: pos. "Backtrack"
+	stream position: pos.
 	
 	isDict ifTrue: [ 
 		dict := Dictionary new.
-		[ self skipWhitespace: stream. (self match: '}' from: stream) ] whileFalse: [
-			| key val |
+		[ self skipWhitespace: stream. (self match: '}' from: stream) ] whileFalse: [ | key val |
 			key := self parseIdentifier: stream.
 			self skipWhitespace: stream.
 			self expect: ':' from: stream.
@@ -150,19 +144,18 @@ MateLanguageParser >> parseComplexContent: stream [
 			self match: ',' from: stream.
 		].
 		
-		"If this dict represents a decl, convert it"
 		(dict includesKey: 'array') ifTrue: [ ^ self createArrayDeclFrom: dict ].
 		(dict includesKey: 'oneOf') ifTrue: [ ^ MateInstOneOfVarDecl new options: (dict at: 'oneOf') ].
 		(dict includesKey: 'type') ifTrue: [ ^ self createConstrainedDeclFrom: dict ].
 		
-		^ dict "Return raw dict if just structure, e.g. nested constraint params"
+		^ dict
 	] ifFalse: [
 		collection := OrderedCollection new.
 		[ self skipWhitespace: stream. (self match: '}' from: stream) ] whileFalse: [
 			collection add: (self parseValue: stream).
 			self skipWhitespace: stream.
-			self match: '.' from: stream. "Smalltalk array syntax uses ."
-			self match: ',' from: stream. "Or comma? Example uses ."
+			self match: '.' from: stream.
+			self match: ',' from: stream.
 		].
 		^ collection asArray
 	]
@@ -170,7 +163,7 @@ MateLanguageParser >> parseComplexContent: stream [
 
 { #category : 'parsing' }
 MateLanguageParser >> parseComplexType: stream [
-	"Alias for consistency, but logic moved to parseComplexContent to handle ambiguity"
+
 	^ self parseComplexContent: stream
 ]
 
@@ -206,6 +199,7 @@ MateLanguageParser >> parseField: stream [
 	typeDesc := self parseTypeDescription: stream.
 	
 	typeDesc name: name.
+	
 	^ typeDesc
 ]
 
@@ -277,17 +271,12 @@ MateLanguageParser >> parseSimpleType: stream [
 		| otherType |
 		self skipWhitespace: stream.
 		otherType := self parseTypeDescription: stream.
-		"TODO: Handle top-level union properly if needed, but usually unions are in ()"
-		"For Warrior | Rogue | Mage, if not in parens, it's tricky without precedence."
-		"Assuming simple type is just one class for now, or unions are parenthesized."
-		"But wait, example: characterClass: Warrior | Rogue | Mage,"
-		"This means '|' has lower precedence than ':'"
-		"So parseSimpleType should actually parse a sequence of types separated by |"
 		type := self resolveClass: typeName.
 		^ (self createUnion: type with: otherType)
 	].
 
 	type := self resolveClass: typeName.
+
 	^ MateInstVarDecl new type: type
 ]
 
@@ -346,7 +335,6 @@ MateLanguageParser >> parseValue: stream [
 	char = $[ ifTrue: [ ^ self parseList: stream ].
 	char = ${ ifTrue: [ ^ self parseComplexContent: stream ]. 
 	
-	"Identifier or Type"
 	^ self parseIdentifier: stream
 ]
 
