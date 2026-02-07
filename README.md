@@ -54,11 +54,11 @@ person age.  "=> 42 (random SmallInteger)"
 
 ```smalltalk
 Player -> {
-			name: String,
-			characterClass: Warrior | Rogue | Mage,
-			level: { type: SmallInteger, between: 0 and: 99 },
-			missingExperienceForNextLevel: { type: SmallInteger, greaterThan: 0 }
-		}
+  name: ByteString,
+  characterClass: Warrior | Rogue | Mage,
+  level: { type: SmallInteger, between: 0 and: 99 },
+  missingExperienceForNextLevel: { type: SmallInteger, greaterThan: 0 }
+}
 ```
 
 Generating player instances:
@@ -75,43 +75,42 @@ player level.           "=> 47 (always 0-99)"
 ### `Bloc Element` Object Graph Grammar
 
 ```smalltalk
-	BlElement -> {
-		children: BlChildrenArray,
-		visuals: BlCustomVisuals,
-		constraints: BlLayoutCommonConstraints
-	}.
-		
-    BlChildrenArray -> { 
-        array: { type: [ BlElement ], sizeBetween: 0 and: 30 }
-    }.
-    
-    BlCustomVisuals -> { 
-        background: (BlPaintBackground | BlTransparentBackground),
-        geometry: (BlRectangleGeometry | BlEllipseGeometry | BlTriangleGeometry),
-        clipChildren: Boolean,
-    }.
-    
-    BlLayoutCommonConstraints -> {
-        position: Point,
-        vertical: BlLayoutCommonConstraintsAxis,
-        horizontal: BlLayoutCommonConstraintsAxis
-    }.
-    
-    BlLayoutCommonConstraintsAxis -> {
-        resizer: BlLayoutExactResizer
-    }.
-    
-    BlLayoutExactResizer -> {
-        size: SmallInteger
-    }.
-    
-    BlPaintBackground -> {
-        paint: Color
-    }.
-    
-    BlTriangleGeometry -> {
-        orientation: { oneOf: { #top . #right . #left . #bottom } }
-    }
+BlElement -> {
+  children: BlChildrenArray,
+  visuals: (BlCustomVisuals | BlDefaultVisuals),
+  constraints: BlLayoutCommonConstraints
+}
+
+BlChildrenArray -> { 
+  array: { type: [ BlElement ], sizeBetween: 0 and: 10 }
+}
+
+BlCustomVisuals -> { 
+  background: (BlPaintBackground | BlTransparentBackground),
+  geometry: (BlRectangleGeometry | BlEllipseGeometry | BlTriangleGeometry),
+  clipChildren: Boolean,
+}
+
+BlLayoutCommonConstraints -> {
+  position: Point,
+  vertical: BlLayoutCommonConstraintsAxis,
+  horizontal: BlLayoutCommonConstraintsAxis
+}
+
+BlLayoutCommonConstraintsAxis -> {
+  resizer: BlLayoutExactResizer
+}
+
+BlLayoutExactResizer -> {
+  size: (SmallInteger | SmallFloat64)
+}
+
+BlPaintBackground -> {
+  paint: Color
+}
+BlTriangleGeometry -> {
+  orientation: { oneOf: { #top . #right . #left . #bottom } }
+}
 ```
 
 Generating Bloc Element instances:
