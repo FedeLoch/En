@@ -12,139 +12,48 @@ MateLanguageParser class >> parse: aMateDescription [
 	^ self new parse: aMateDescription
 ]
 
-{ #category : 'accessing' }
-MateLanguageParser >> parse: aString [
+{ #category : 'creation' }
+MateLanguageParser >> createArrayDeclFrom: dict [
 
-	| stream grammar |
+	| decl arrayDef typeList |
 	
-	stream := aString readStream.
-	grammar := MateOGGrammar new.
+	decl := MateInstArrayVarDecl new.
+	arrayDef := dict at: 'array'. 
+	"arrayDef is the inner dict: { type: [ BlElement ], sizeBetween: 0 and: 10 }"
 	
-	[ stream atEnd ] whileFalse: [ 
-		self skipWhitespace: stream.
-		stream atEnd ifFalse: [ 
-			self parseRule: stream into: grammar 
-		]
-	].
-
-	^ grammar
-]
-
-{ #category : 'parsing' }
-MateLanguageParser >> parseRule: stream into: grammar [
-
-	| className definition type |
+	typeList := arrayDef at: 'type'.
+	"typeList is [ 'BlElement' ] (strings) or [ BlElement ] (classes via resolve?)"
+	"parseValue returns identifier strings for types usually."
 	
-	className := self parseIdentifier: stream.
-	self skipWhitespace: stream.
+	decl elementType: (self resolveClass: typeList first).
 	
-	(self expect: '->' from: stream) ifFalse: [ self error: 'Expected ->' ].
-	self skipWhitespace: stream.
-	
-	definition := self parseDefinition: stream.
-	self skipWhitespace: stream.
-	
-	(self expect: '.' from: stream) ifFalse: [ self error: 'Expected .' ].
-	
-	type := self resolveClass: className.
-	grammar addTypeDeclaration: (MateInstDecl new 
-		type: type;
-		instanceVariableDeclarations: definition).
-]
-
-{ #category : 'parsing' }
-MateLanguageParser >> parseDefinition: stream [
-
-	| decls |
-	
-	(self match: '{' from: stream) ifFalse: [ self error: 'Expected {' ].
-	
-	decls := OrderedCollection new.
-	
-	[ self skipWhitespace: stream. (self match: '}' from: stream) ] whileFalse: [
-		decls add: (self parseField: stream).
-		self skipWhitespace: stream.
-		self match: ',' from: stream. "Optional comma?"
-	].
-
-	^ decls
-]
-
-{ #category : 'parsing' }
-MateLanguageParser >> parseField: stream [
-
-	| name typeDesc |
-	
-	name := self parseIdentifier: stream.
-	self skipWhitespace: stream.
-	
-	(self expect: ':' from: stream) ifFalse: [ self error: 'Expected :' ].
-	self skipWhitespace: stream.
-	
-	typeDesc := self parseTypeDescription: stream.
-	
-	typeDesc name: name.
-	^ typeDesc
-]
-
-{ #category : 'parsing' }
-MateLanguageParser >> parseTypeDescription: stream [
-
-	| char |
-	
-	char := stream peek.
-	
-	char = ${ ifTrue: [ 
-		^ self parseComplexType: stream 
+	(arrayDef includesKey: 'sizeBetween') ifTrue: [
+		decl sizeBetween: (arrayDef at: 'sizeBetween') and: (arrayDef at: 'and').
 	].
 	
-	char = $( ifTrue: [ 
-		^ self parseUnionType: stream 
-	].
-	
-	^ self parseSimpleType: stream
+	^ decl
 ]
 
-{ #category : 'parsing' }
-MateLanguageParser >> parseSimpleType: stream [
-	
-	| typeName type |
-	
-	typeName := self parseIdentifier: stream.
-	self skipWhitespace: stream.
-	
-	(self match: '|' from: stream) ifTrue: [
-		| otherType |
-		self skipWhitespace: stream.
-		otherType := self parseTypeDescription: stream.
-		"TODO: Handle top-level union properly if needed, but usually unions are in ()"
-		"For Warrior | Rogue | Mage, if not in parens, it's tricky without precedence."
-		"Assuming simple type is just one class for now, or unions are parenthesized."
-		"But wait, example: characterClass: Warrior | Rogue | Mage,"
-		"This means '|' has lower precedence than ':'"
-		"So parseSimpleType should actually parse a sequence of types separated by |"
-		type := self resolveClass: typeName.
-		^ (self createUnion: type with: otherType)
-	].
-
+{ #category : 'creation' }
+MateLanguageParser >> createConstrainedDeclFrom: dict [
+	| decl typeName type |
+	typeName := dict at: 'type'.
 	type := self resolveClass: typeName.
-	^ MateInstVarDecl new type: type
-]
-
-{ #category : 'parsing' }
-MateLanguageParser >> parseUnionType: stream [
 	
-	| type |
+	decl := MateInstVarDecl new type: type.
 	
-	self match: '(' from: stream.
-	self skipWhitespace: stream.
+	(dict includesKey: 'between') ifTrue: [
+		"between: 0 and: 99 - this needs 'and' key in dict? No."
+		"Grammar: between: 0 and: 99"
+		"My parser sees: key 'between', val 0. key 'and', val 99."
+		decl constraint: (MateConstraint between: (dict at: 'between') and: (dict at: 'and')).
+	].
 	
-	type := self parseTypeDescription: stream.
+	(dict includesKey: 'greaterThan') ifTrue: [
+		decl constraint: (MateConstraint greaterThan: (dict at: 'greaterThan')).
+	].
 	
-	self skipWhitespace: stream.
-	self match: ')' from: stream.
-	
-	^ type
+	^ decl
 ]
 
 { #category : 'parsing' }
@@ -159,24 +68,43 @@ MateLanguageParser >> createUnion: type1 with: type2 [
 ]
 
 { #category : 'parsing' }
+MateLanguageParser >> expect: string from: stream [
+	^ self match: string from: stream
+]
+
+{ #category : 'parsing' }
 MateLanguageParser >> getUnion: t1 with: t2 [
 	"Helper to create union of types - assuming | is implemented on Class/Type"
 	^ t1 | t2
 ]
 
 { #category : 'parsing' }
-MateLanguageParser >> parseValue: stream [
+MateLanguageParser >> match: string from: stream [
+	| pos |
+	pos := stream position.
+	string do: [ :char | 
+		stream atEnd ifTrue: [ stream position: pos. ^ false ].
+		(stream next = char) ifFalse: [ stream position: pos. ^ false ]
+	].
+	^ true
+]
+
+{ #category : 'accessing' }
+MateLanguageParser >> parse: aString [
+
+	| stream declarations |
 	
-	| char |
-	self skipWhitespace: stream.
-	char := stream peek.
+	stream := aString readStream.
+	declarations := OrderedCollection new.
 	
-	char isDigit ifTrue: [ ^ self parseNumber: stream ].
-	char = $# ifTrue: [ ^ self parseSymbol: stream ].
-	char = $[ ifTrue: [ ^ self parseList: stream ].
-	char = ${ ifTrue: [ ^ self parseComplexContent: stream ]. 
-	"Identifier or Type"
-	^ self parseIdentifier: stream
+	[ stream atEnd ] whileFalse: [ 
+		self skipWhitespace: stream.
+		stream atEnd ifFalse: [ 
+			declarations add: (self parseRule: stream) 
+		]
+	].
+
+	^ declarations 
 ]
 
 { #category : 'parsing' }
@@ -241,6 +169,48 @@ MateLanguageParser >> parseComplexType: stream [
 ]
 
 { #category : 'parsing' }
+MateLanguageParser >> parseDefinition: stream [
+
+	| decls |
+	
+	(self match: '{' from: stream) ifFalse: [ self error: 'Expected {' ].
+	
+	decls := OrderedCollection new.
+	
+	[ self skipWhitespace: stream. (self match: '}' from: stream) ] whileFalse: [
+		decls add: (self parseField: stream).
+		self skipWhitespace: stream.
+		self match: ',' from: stream. "Optional comma?"
+	].
+
+	^ decls
+]
+
+{ #category : 'parsing' }
+MateLanguageParser >> parseField: stream [
+
+	| name typeDesc |
+	
+	name := self parseIdentifier: stream.
+	self skipWhitespace: stream.
+	
+	(self expect: ':' from: stream) ifFalse: [ self error: 'Expected :' ].
+	self skipWhitespace: stream.
+	
+	typeDesc := self parseTypeDescription: stream.
+	
+	typeDesc name: name.
+	^ typeDesc
+]
+
+{ #category : 'parsing' }
+MateLanguageParser >> parseIdentifier: stream [
+	^ String streamContents: [ :s |
+		[ stream peek isAlphaNumeric ] whileTrue: [ s nextPut: stream next ]
+	]
+]
+
+{ #category : 'parsing' }
 MateLanguageParser >> parseList: stream [
 	"Parse [ ... ] - usually list of types"
 	| collection |
@@ -255,50 +225,6 @@ MateLanguageParser >> parseList: stream [
 	^ collection asArray
 ]
 
-{ #category : 'creation' }
-MateLanguageParser >> createArrayDeclFrom: dict [
-
-	| decl arrayDef typeList |
-	
-	decl := MateInstArrayVarDecl new.
-	arrayDef := dict at: 'array'. 
-	"arrayDef is the inner dict: { type: [ BlElement ], sizeBetween: 0 and: 10 }"
-	
-	typeList := arrayDef at: 'type'.
-	"typeList is [ 'BlElement' ] (strings) or [ BlElement ] (classes via resolve?)"
-	"parseValue returns identifier strings for types usually."
-	
-	decl elementType: (self resolveClass: typeList first).
-	
-	(arrayDef includesKey: 'sizeBetween') ifTrue: [
-		decl sizeBetween: (arrayDef at: 'sizeBetween') and: (arrayDef at: 'and').
-	].
-	
-	^ decl
-]
-
-{ #category : 'creation' }
-MateLanguageParser >> createConstrainedDeclFrom: dict [
-	| decl typeName type |
-	typeName := dict at: 'type'.
-	type := self resolveClass: typeName.
-	
-	decl := MateInstVarDecl new type: type.
-	
-	(dict includesKey: 'between') ifTrue: [
-		"between: 0 and: 99 - this needs 'and' key in dict? No."
-		"Grammar: between: 0 and: 99"
-		"My parser sees: key 'between', val 0. key 'and', val 99."
-		decl constraint: (MateConstraint between: (dict at: 'between') and: (dict at: 'and')).
-	].
-	
-	(dict includesKey: 'greaterThan') ifTrue: [
-		decl constraint: (MateConstraint greaterThan: (dict at: 'greaterThan')).
-	].
-	
-	^ decl
-]
-
 { #category : 'parsing' }
 MateLanguageParser >> parseNumber: stream [
 	"Simple integer parser"
@@ -310,37 +236,104 @@ MateLanguageParser >> parseNumber: stream [
 ]
 
 { #category : 'parsing' }
+MateLanguageParser >> parseRule: stream [
+
+	| className definition type |
+	
+	className := self parseIdentifier: stream.
+	self skipWhitespace: stream.
+	
+	(self expect: '->' from: stream) ifFalse: [ self error: 'Expected ->' ].
+	self skipWhitespace: stream.
+	
+	definition := self parseDefinition: stream.
+	self skipWhitespace: stream.
+	
+	(self expect: '.' from: stream) ifFalse: [ self error: 'Expected .' ].
+	
+	type := self resolveClass: className.
+	^ MateInstDecl new type: type; instanceVariableDeclarations: definition
+]
+
+{ #category : 'parsing' }
+MateLanguageParser >> parseSimpleType: stream [
+	
+	| typeName type |
+	
+	typeName := self parseIdentifier: stream.
+	self skipWhitespace: stream.
+	
+	(self match: '|' from: stream) ifTrue: [
+		| otherType |
+		self skipWhitespace: stream.
+		otherType := self parseTypeDescription: stream.
+		"TODO: Handle top-level union properly if needed, but usually unions are in ()"
+		"For Warrior | Rogue | Mage, if not in parens, it's tricky without precedence."
+		"Assuming simple type is just one class for now, or unions are parenthesized."
+		"But wait, example: characterClass: Warrior | Rogue | Mage,"
+		"This means '|' has lower precedence than ':'"
+		"So parseSimpleType should actually parse a sequence of types separated by |"
+		type := self resolveClass: typeName.
+		^ (self createUnion: type with: otherType)
+	].
+
+	type := self resolveClass: typeName.
+	^ MateInstVarDecl new type: type
+]
+
+{ #category : 'parsing' }
 MateLanguageParser >> parseSymbol: stream [
 	stream next. "#"
 	^ (self parseIdentifier: stream) asSymbol
 ]
 
 { #category : 'parsing' }
-MateLanguageParser >> parseIdentifier: stream [
-	^ String streamContents: [ :s |
-		[ stream peek isAlphaNumeric ] whileTrue: [ s nextPut: stream next ]
-	]
-]
+MateLanguageParser >> parseTypeDescription: stream [
 
-{ #category : 'parsing' }
-MateLanguageParser >> skipWhitespace: stream [
-	[ stream atEnd not and: [ stream peek <= 32 asCharacter ] ] whileTrue: [ stream next ]
-]
-
-{ #category : 'parsing' }
-MateLanguageParser >> match: string from: stream [
-	| pos |
-	pos := stream position.
-	string do: [ :char | 
-		stream atEnd ifTrue: [ stream position: pos. ^ false ].
-		(stream next = char) ifFalse: [ stream position: pos. ^ false ]
+	| char |
+	
+	char := stream peek.
+	
+	char = ${ ifTrue: [ 
+		^ self parseComplexType: stream 
 	].
-	^ true
+	
+	char = $( ifTrue: [ 
+		^ self parseUnionType: stream 
+	].
+	
+	^ self parseSimpleType: stream
 ]
 
 { #category : 'parsing' }
-MateLanguageParser >> expect: string from: stream [
-	^ self match: string from: stream
+MateLanguageParser >> parseUnionType: stream [
+	
+	| type |
+	
+	self match: '(' from: stream.
+	self skipWhitespace: stream.
+	
+	type := self parseTypeDescription: stream.
+	
+	self skipWhitespace: stream.
+	self match: ')' from: stream.
+	
+	^ type
+]
+
+{ #category : 'parsing' }
+MateLanguageParser >> parseValue: stream [
+	
+	| char |
+	self skipWhitespace: stream.
+	char := stream peek.
+	
+	char isDigit ifTrue: [ ^ self parseNumber: stream ].
+	char = $# ifTrue: [ ^ self parseSymbol: stream ].
+	char = $[ ifTrue: [ ^ self parseList: stream ].
+	char = ${ ifTrue: [ ^ self parseComplexContent: stream ]. 
+	"Identifier or Type"
+	^ self parseIdentifier: stream
 ]
 
 { #category : 'resolving' }
@@ -350,4 +343,9 @@ MateLanguageParser >> resolveClass: aString [
 		"For testing, maybe create dummy classes or error?"
 		self error: 'Class not found: ', aString
 	]
+]
+
+{ #category : 'parsing' }
+MateLanguageParser >> skipWhitespace: stream [
+	[ stream atEnd not and: [ stream peek <= 32 asCharacter ] ] whileTrue: [ stream next ]
 ]
