@@ -42,7 +42,7 @@ MateGenerator >> initialize [
 		SmallInteger -> MateSmallIntegerGenerator new.
 		Float -> MateFloatGenerator new.
 		Boolean -> MateBooleanGenerator new.
-		String -> MateStringGenerator new.
+		ByteString -> MateByteStringGenerator new.
 		Color -> MateColorGenerator new.
 		Point -> MatePointGenerator new
 	} asDictionary.

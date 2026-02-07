@@ -1,5 +1,5 @@
 Class {
-	#name : 'MateStringGenerator',
+	#name : 'MateByteStringGenerator',
 	#superclass : 'MateBuiltInGenerator',
 	#instVars : [
 		'generator'
@@ -10,13 +10,13 @@ Class {
 }
 
 { #category : 'initialization' }
-MateStringGenerator >> generate [
+MateByteStringGenerator >> generate [
 
 	^ generator gen: nil
 ]
 
 { #category : 'initialization' }
-MateStringGenerator >> initialize [ 
+MateByteStringGenerator >> initialize [ 
 	
 	super initialize.
 	generator := UmeGrammarGenerator new grammar: StringGrammar new.
