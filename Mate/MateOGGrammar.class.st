@@ -19,6 +19,12 @@ MateOGGrammar >> addTypeDeclaration: decl [
 	typeDeclarations at: decl type put: decl
 ]
 
+{ #category : 'accessing' }
+MateOGGrammar >> addTypeDeclarations: declarations [
+
+	declarations do: [ :decl | self addTypeDeclaration: decl ]
+]
+
 { #category : 'as yet unclassified' }
 MateOGGrammar >> backpropagate: node improvement: improvement [
 
@@ -36,6 +42,23 @@ MateOGGrammar >> builtInTypeDeclarations [
 		dict at: type put: (MateBuiltInDecl new type: type; grammar: self).
 		dict
 	]
+]
+
+{ #category : 'accessing' }
+MateOGGrammar >> defineObjectGraph [
+
+	^ nil
+]
+
+{ #category : 'accessing' }
+MateOGGrammar >> feedByGraphDescription [
+
+	| description |
+		
+	description := self defineObjectGraph.
+	description ifNil: [ ^ nil ].
+	
+	self addTypeDeclarations: (MateLanguageParser parse: description)
 ]
 
 { #category : 'as yet unclassified' }
@@ -63,6 +86,7 @@ MateOGGrammar >> initialize [
 	typeDeclarations := self builtInTypeDeclarations.
 	generator := MateGenerator new grammar: self.
 	parser := MateParser new grammar: self.
+	self feedByGraphDescription.
 ]
 
 { #category : 'accessing' }
@@ -75,10 +99,4 @@ MateOGGrammar >> parser [
 MateOGGrammar >> typeDeclarations [
 
 	^ typeDeclarations
-]
-
-{ #category : 'accessing' }
-MateOGGrammar >> typeDeclarations: declarations [
-
-	declarations do: [ :decl | self addTypeDeclaration: decl ]
 ]

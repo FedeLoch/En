@@ -1,5 +1,5 @@
 Class {
-	#name : 'MateHandMadeGrammarTest',
+	#name : 'MateGrammarByLangTest',
 	#superclass : 'MateGrammarTest',
 	#category : 'Mate-Generation Tests',
 	#package : 'Mate',
