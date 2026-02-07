@@ -18,12 +18,6 @@ MateInstVarDecl >> = anObject [
 	^ name = anObject name and: [ constraint = anObject constraint ]
 ]
 
-{ #category : 'comparing' }
-MateInstVarDecl >> hash [
-
-	^ (super hash bitXor: name hash) bitXor: constraint hash
-]
-
 { #category : 'as yet unclassified' }
 MateInstVarDecl >> acceptType: aType [
 
@@ -46,6 +40,12 @@ MateInstVarDecl >> constraint [
 MateInstVarDecl >> constraint: aConstraint [
 
 	constraint := aConstraint
+]
+
+{ #category : 'comparing' }
+MateInstVarDecl >> hash [
+
+	^ (super hash bitXor: name hash) bitXor: constraint hash
 ]
 
 { #category : 'accessing' }

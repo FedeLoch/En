@@ -21,12 +21,6 @@ MateInstArrayVarDecl >> = anObject [
 			maxSize = anObject maxSize ] ]
 ]
 
-{ #category : 'comparing' }
-MateInstArrayVarDecl >> hash [
-
-	^ ((super hash bitXor: elementType hash) bitXor: minSize hash) bitXor: maxSize hash
-]
-
 { #category : 'visiting' }
 MateInstArrayVarDecl >> acceptSize: size [ 
 	
@@ -43,6 +37,12 @@ MateInstArrayVarDecl >> elementType [
 MateInstArrayVarDecl >> elementType: aType [
 
 	elementType := aType
+]
+
+{ #category : 'comparing' }
+MateInstArrayVarDecl >> hash [
+
+	^ ((super hash bitXor: elementType hash) bitXor: minSize hash) bitXor: maxSize hash
 ]
 
 { #category : 'accessing' }

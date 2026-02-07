@@ -10,7 +10,7 @@ Class {
 MateBlocGrammarByLang >> defineObjectGraph [
 
 	^ '
-		BlElement -> {
+	 	BlElement -> {
 			children: BlChildrenArray,
 			visuals: (BlCustomVisuals | BlDefaultVisuals),
 			constraints: BlLayoutCommonConstraints
@@ -30,7 +30,7 @@ MateBlocGrammarByLang >> defineObjectGraph [
 			position: Point,
 			vertical: BlLayoutCommonConstraintsAxis,
 			horizontal: BlLayoutCommonConstraintsAxis
-		}.
+		}
 		
 		BlLayoutCommonConstraintsAxis -> {
 			resizer: BlLayoutExactResizer
@@ -43,7 +43,6 @@ MateBlocGrammarByLang >> defineObjectGraph [
 		BlPaintBackground -> {
 			paint: Color
 		}
-		
 		BlTriangleGeometry -> {
 			orientation: { oneOf: { #top . #right . #left . #bottom } }
 		}

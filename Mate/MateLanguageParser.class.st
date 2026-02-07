@@ -19,11 +19,8 @@ MateLanguageParser >> createArrayDeclFrom: dict [
 	
 	decl := MateInstArrayVarDecl new.
 	arrayDef := dict at: 'array'. 
-	"arrayDef is the inner dict: { type: [ BlElement ], sizeBetween: 0 and: 10 }"
 	
 	typeList := arrayDef at: 'type'.
-	"typeList is [ 'BlElement' ] (strings) or [ BlElement ] (classes via resolve?)"
-	"parseValue returns identifier strings for types usually."
 	
 	decl elementType: (self resolveClass: typeList first).
 	
@@ -36,11 +33,11 @@ MateLanguageParser >> createArrayDeclFrom: dict [
 
 { #category : 'creation' }
 MateLanguageParser >> createConstrainedDeclFrom: dict [
+
 	| decl typeSpec |
 	
 	typeSpec := dict at: 'type'.
 	
-	"Check if it's an array type definition: [ Type ]"
 	(typeSpec isCollection and: [ typeSpec isString not ]) ifTrue: [ 
 		decl := MateInstArrayVarDecl new.
 		decl elementType: (self resolveClass: typeSpec first).
@@ -51,7 +48,6 @@ MateLanguageParser >> createConstrainedDeclFrom: dict [
 		^ decl
 	].
 
-	"Regular type with constraints"
 	decl := MateInstVarDecl new type: (self resolveClass: typeSpec).
 	
 	(dict includesKey: 'between') ifTrue: [
@@ -78,13 +74,14 @@ MateLanguageParser >> createUnion: type1 with: type2 [
 
 { #category : 'parsing' }
 MateLanguageParser >> expect: string from: stream [
+
 	^ self match: string from: stream
 ]
 
 { #category : 'parsing' }
 MateLanguageParser >> getUnion: t1 with: t2 [
-	"Helper to create union of types - assuming | is implemented on Class/Type"
-	^ t1 | t2
+
+	^ t2 | t1
 ]
 
 { #category : 'parsing' }
@@ -214,6 +211,7 @@ MateLanguageParser >> parseField: stream [
 
 { #category : 'parsing' }
 MateLanguageParser >> parseIdentifier: stream [
+
 	^ String streamContents: [ :s |
 		[ stream peek isAlphaNumeric ] whileTrue: [ s nextPut: stream next ]
 	]
@@ -221,8 +219,9 @@ MateLanguageParser >> parseIdentifier: stream [
 
 { #category : 'parsing' }
 MateLanguageParser >> parseList: stream [
-	"Parse [ ... ] - usually list of types"
+
 	| collection |
+	
 	self match: '[' from: stream.
 	collection := OrderedCollection new.
 	
@@ -231,16 +230,19 @@ MateLanguageParser >> parseList: stream [
 		self skipWhitespace: stream.
 		self match: ',' from: stream.
 	].
+
 	^ collection asArray
 ]
 
 { #category : 'parsing' }
 MateLanguageParser >> parseNumber: stream [
-	"Simple integer parser"
+	
 	| numStr |
+	
 	numStr := String streamContents: [ :s |
 		[ stream peek isDigit ] whileTrue: [ s nextPut: stream next ]
 	].
+
 	^ numStr asNumber
 ]
 
@@ -259,7 +261,8 @@ MateLanguageParser >> parseRule: stream [
 	self skipWhitespace: stream.
 	
 	type := self resolveClass: className.
-	^ MateInstDecl new type: type; instanceVariableDeclarations: definition
+	
+	^ MateInstDecl new type: type; instanceVariableDeclarations: definition asArray
 ]
 
 { #category : 'parsing' }
@@ -290,7 +293,9 @@ MateLanguageParser >> parseSimpleType: stream [
 
 { #category : 'parsing' }
 MateLanguageParser >> parseSymbol: stream [
-	stream next. "#"
+
+	stream next.
+
 	^ (self parseIdentifier: stream) asSymbol
 ]
 
@@ -332,6 +337,7 @@ MateLanguageParser >> parseUnionType: stream [
 MateLanguageParser >> parseValue: stream [
 	
 	| char |
+	
 	self skipWhitespace: stream.
 	char := stream peek.
 	
@@ -339,20 +345,21 @@ MateLanguageParser >> parseValue: stream [
 	char = $# ifTrue: [ ^ self parseSymbol: stream ].
 	char = $[ ifTrue: [ ^ self parseList: stream ].
 	char = ${ ifTrue: [ ^ self parseComplexContent: stream ]. 
+	
 	"Identifier or Type"
 	^ self parseIdentifier: stream
 ]
 
 { #category : 'resolving' }
-MateLanguageParser >> resolveClass: aString [
-	"Mage, Warrior - generated classes? or existing?"
-	^ self class environment at: aString asSymbol ifAbsent: [ 
-		"For testing, maybe create dummy classes or error?"
-		self error: 'Class not found: ', aString
+MateLanguageParser >> resolveClass: aClass [
+
+	^ self class environment at: aClass asSymbol ifAbsent: [ 
+		self error: 'Class not found: ', aClass
 	]
 ]
 
 { #category : 'parsing' }
 MateLanguageParser >> skipWhitespace: stream [
+
 	[ stream atEnd not and: [ stream peek <= 32 asCharacter ] ] whileTrue: [ stream next ]
 ]

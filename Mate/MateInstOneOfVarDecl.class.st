@@ -18,12 +18,6 @@ MateInstOneOfVarDecl >> = anObject [
 	^ options asArray = anObject options asArray
 ]
 
-{ #category : 'comparing' }
-MateInstOneOfVarDecl >> hash [
-
-	^ super hash bitXor: options hash
-]
-
 { #category : 'as yet unclassified' }
 MateInstOneOfVarDecl >> acceptOption: option [
 	
@@ -71,6 +65,12 @@ MateInstOneOfVarDecl >> getOne: context [
 	self updateVisits: context selecting: selected.
 	
 	^ selected
+]
+
+{ #category : 'comparing' }
+MateInstOneOfVarDecl >> hash [
+
+	^ super hash bitXor: options hash
 ]
 
 { #category : 'initialization' }
