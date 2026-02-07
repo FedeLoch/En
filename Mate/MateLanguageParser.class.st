@@ -73,7 +73,7 @@ MateLanguageParser >> createUnion: type1 with: type2 [
 	| t2 |
 	t2 := (type2 isKindOf: MateInstVarDecl) ifTrue: [ type2 type ] ifFalse: [ type2 ].
 	
-	^ MateInstVarDecl new type: (getUnion: type1 with: t2)
+	^ MateInstVarDecl new type: (self getUnion: type1 with: t2)
 ]
 
 { #category : 'parsing' }
@@ -257,8 +257,6 @@ MateLanguageParser >> parseRule: stream [
 	
 	definition := self parseDefinition: stream.
 	self skipWhitespace: stream.
-	
-	(self expect: '.' from: stream) ifFalse: [ self error: 'Expected .' ].
 	
 	type := self resolveClass: className.
 	^ MateInstDecl new type: type; instanceVariableDeclarations: definition
