@@ -17,13 +17,13 @@ Mate is an object graph language implementation that allows you to define gramma
 
 ## Architecture Overview
 
-Mate is built on a systematic grammar-driven framework that decouples structural definitions from object instances or a Mate definition, enabling the generation of complex, state-consistent object graphs. It employs a feedback-oriented derivation process, where the object grammar productions are iteratively refined based on any kind of metric.
+Mate is built on a systematic, grammar-driven framework that decouples structural definitions from object instances or Mate definitions, enabling the generation of complex, state-consistent object graphs. It employs a feedback-oriented derivation process, in which the object grammar productions are iteratively refined using any metric.
 
 ![Mate Architecture](images/architecture.png)
 
-With Mate you can:
+With Mate, you can:
 - Declare your own Object Graph Grammars
-- Generate valid object instances from a grammar
+- Generate valid object instances from a grammar and historical reward ( Monte Carlo Tree Search )
 - Mate Object Graphs derivations visualization
 - Propagate rewards through the derivation tree to improve future generations
 - Parse and validate object graphs against your Mate grammar
