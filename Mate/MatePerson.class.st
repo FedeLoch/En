@@ -1,5 +1,5 @@
 Class {
-	#name : 'Person',
+	#name : 'MatePerson',
 	#superclass : 'Object',
 	#instVars : [
 		'age'
@@ -10,19 +10,19 @@ Class {
 }
 
 { #category : 'accessing' }
-Person >> age [
+MatePerson >> age [
 	
 	^ age value
 ]
 
 { #category : 'accessing' }
-Person >> age: aNumber [
+MatePerson >> age: aNumber [
 
 	age := aNumber 
 ]
 
 { #category : 'accessing' }
-Person >> model [
+MatePerson >> model [
 	
 	"	Person -> { age: Age }.
 		Age -> { value: SmallInteger }
@@ -30,7 +30,7 @@ Person >> model [
 ]
 
 { #category : 'accessing' }
-Person >> name: aName [
+MatePerson >> name: aName [
 
 	name := aName 
 ]

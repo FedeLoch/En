@@ -20,10 +20,10 @@ MatePersonGrammar >> initialize [
 	
 	super initialize.
 	
-	self addTypeDeclaration: (MateInstDecl new type: Person; instanceVariableDeclarations: {
-		MateInstVarDecl new name: 'age'; type: Age 
+	self addTypeDeclaration: (MateInstDecl new type: MatePerson; instanceVariableDeclarations: {
+		MateInstVarDecl new name: 'age'; type: MateAge 
 	}).
-	self addTypeDeclaration: (MateInstDecl new type: Age; instanceVariableDeclarations: {
+	self addTypeDeclaration: (MateInstDecl new type: MateAge; instanceVariableDeclarations: {
 		MateInstVarDecl new name: 'value'; type: SmallInteger 
 	}).
 ]

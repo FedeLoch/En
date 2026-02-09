@@ -1,5 +1,5 @@
 Class {
-	#name : 'Age',
+	#name : 'MateAge',
 	#superclass : 'Object',
 	#instVars : [
 		'value'
@@ -10,13 +10,13 @@ Class {
 }
 
 { #category : 'evaluating' }
-Age >> value [ 
+MateAge >> value [ 
 
 	^ value
 ]
 
 { #category : 'accessing' }
-Age >> value: anAge [
+MateAge >> value: anAge [
 	
 	value := anAge 
 ]

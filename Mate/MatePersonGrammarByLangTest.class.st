@@ -15,7 +15,7 @@ MatePersonGrammarByLangTest >> newGrammar [
 { #category : 'tests' }
 MatePersonGrammarByLangTest >> testGrammarAgeDeclarationsMatch [
 	
-	self testDecl: Age expects: (MateInstDecl new type: Age; instanceVariableDeclarations: {
+	self testDecl: MateAge expects: (MateInstDecl new type: MateAge; instanceVariableDeclarations: {
 		MateInstVarDecl new name: 'value'; type: SmallInteger 
 	})
 ]
@@ -23,7 +23,7 @@ MatePersonGrammarByLangTest >> testGrammarAgeDeclarationsMatch [
 { #category : 'tests' }
 MatePersonGrammarByLangTest >> testGrammarPersonDeclarationsMatch [
 
-	self testDecl: Person expects: (MateInstDecl new type: Person; instanceVariableDeclarations: {
-		MateInstVarDecl new name: 'age'; type: Age 
+	self testDecl: MatePerson expects: (MateInstDecl new type: MatePerson; instanceVariableDeclarations: {
+		MateInstVarDecl new name: 'age'; type: MateAge 
 	})
 ]

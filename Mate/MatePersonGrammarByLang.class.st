@@ -10,8 +10,8 @@ Class {
 MatePersonGrammarByLang >> defineObjectGraph [
 
 	^ '
-	 	Person -> { age: Age }
+	 	MatePerson -> { age: MateAge }
 		
-	 	Age -> { value: SmallInteger }
+	 	MateAge -> { value: SmallInteger }
 	'
 ]

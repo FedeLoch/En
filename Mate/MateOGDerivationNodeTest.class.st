@@ -25,7 +25,7 @@ MateOGDerivationNodeTest >> personDerivationRender [
 	| generator derivation |
 	generator  := MatePersonGrammar new generator.
 	
-	derivation := generator gen: Person from: MateContext new.
+	derivation := generator gen: MatePerson from: MateContext new.
 
 	^ derivation render inspect
 ]

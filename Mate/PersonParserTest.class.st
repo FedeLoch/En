@@ -15,19 +15,19 @@ PersonParserTest >> newGrammar [
 { #category : 'tests' }
 PersonParserTest >> testGivenAGeneratedPersonItCanGiveTheGrammarDerivation [
 
-	self doTest: (grammar gen: Person)
+	self doTest: (grammar gen: MatePerson)
 ]
 
 { #category : 'tests' }
 PersonParserTest >> testGivenAPersonItCanGiveTheGrammarDerivation [
 
-	self doTest: (Person new age: (Age new value: 42))
+	self doTest: (MatePerson new age: (MateAge new value: 42))
 ]
 
 { #category : 'tests' }
 PersonParserTest >> testGivenAnAgeItCanGiveTheGrammarDerivation [
 
-	self doTest: (Age new value: 42)
+	self doTest: (MateAge new value: 42)
 ]
 
 { #category : 'tests' }
@@ -41,11 +41,11 @@ PersonParserTest >> testParseSimplePerson [
 
 	| person derivation |
 
-	person := Person new age: (Age new value: 42).
+	person := MatePerson new age: (MateAge new value: 42).
 	
 	derivation := parser parse: person.
 	self assert: derivation class equals: MateOGInstanceNode.
-	self assert: derivation declaration type equals: Person.
+	self assert: derivation declaration type equals: MatePerson.
 	self assert: derivation instance equals: person.
 	
 	self assert: derivation edges size equals: 1.
@@ -53,7 +53,7 @@ PersonParserTest >> testParseSimplePerson [
 	
 	derivation := derivation edges at: 'age'.
 	self assert: derivation class equals: MateOGInstanceNode. 
-	self assert: derivation declaration type equals: Age.
+	self assert: derivation declaration type equals: MateAge.
 	self assert: derivation instance value equals: 42.
 	
 	derivation := derivation edges at: 'value'.
