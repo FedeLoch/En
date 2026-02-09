@@ -19,5 +19,5 @@ MateByteStringGenerator >> generate [
 MateByteStringGenerator >> initialize [ 
 	
 	super initialize.
-	generator := UmeGrammarGenerator new grammar: StringGrammar new.
+	generator := GncBPGrammarGenerator new grammar: MateStringGrammar new.
 ]

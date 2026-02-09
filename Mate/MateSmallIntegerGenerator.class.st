@@ -1,9 +1,6 @@
 Class {
 	#name : 'MateSmallIntegerGenerator',
 	#superclass : 'MateBuiltInGenerator',
-	#instVars : [
-		'generator'
-	],
 	#category : 'Mate-Generation',
 	#package : 'Mate',
 	#tag : 'Generation'
@@ -26,6 +23,5 @@ MateSmallIntegerGenerator >> generateWithConstraint: aConstraint [
 { #category : 'initialization' }
 MateSmallIntegerGenerator >> initialize [ 
 	
-	super initialize.
-	generator := UmeGrammarGenerator new grammar: DecimalGrammar new.
+	super initialize
 ]
