@@ -114,6 +114,21 @@ MateLanguageParser >> parse: aString [
 ]
 
 { #category : 'parsing' }
+MateLanguageParser >> parseArrayElementProp: stream [
+
+	| propName |
+	
+	stream next.
+	self skipWhitespace: stream.
+	self match: '.' from: stream.
+	propName := self parseIdentifier: stream.
+	self skipWhitespace: stream.
+	self match: ']' from: stream.
+
+	^ MatePathEachProp from: propName
+]
+
+{ #category : 'parsing' }
 MateLanguageParser >> parseComplexContent: stream [
 	
 	| pos isDict collection dict |
@@ -251,6 +266,34 @@ MateLanguageParser >> parseNumber: stream [
 ]
 
 { #category : 'parsing' }
+MateLanguageParser >> parseProp: stream [
+
+	| propName |
+	
+	self match: '.' from: stream.
+	propName := self parseIdentifier: stream.
+	
+	^ MatePathProp from: propName
+]
+
+{ #category : 'parsing' }
+MateLanguageParser >> parseReferencePath: stream [
+
+	| pathParts |
+	pathParts := OrderedCollection new.
+
+	[
+		self skipWhitespace: stream.
+		stream atEnd not and: [
+			stream peek ~= $} and: [ stream peek ~= $, ] ] ] whileTrue: [
+			pathParts add: (stream peek = $[
+					 ifTrue: [ self parseArrayElementProp: stream ]
+					 ifFalse: [ self parseProp: stream ]) ].
+
+	^ MateReferencePath new: pathParts asArray
+]
+
+{ #category : 'parsing' }
 MateLanguageParser >> parseRule: stream [
 
 	| className result definition selfRefs type |
@@ -273,38 +316,11 @@ MateLanguageParser >> parseRule: stream [
 ]
 
 { #category : 'parsing' }
-MateLanguageParser >> parseReferencePath: stream [
-
-	| pathParts propName |
-	
-	pathParts := OrderedCollection new.
-	
-	[ self skipWhitespace: stream.
-	  stream atEnd not and: [ (stream peek ~= $}) and: [ stream peek ~= $, ] ] ] whileTrue: [
-		stream peek = $[ ifTrue: [
-			stream next. "consume ["
-			self skipWhitespace: stream.
-			self match: '.' from: stream.
-			propName := self parseIdentifier: stream.
-			self skipWhitespace: stream.
-			self match: ']' from: stream.
-			pathParts add: (MatePathEachProp from: propName).
-		] ifFalse: [
-			self match: '.' from: stream. "skip separator dot if present"
-			propName := self parseIdentifier: stream.
-			pathParts add: (MatePathProp from: propName).
-		].
-	].
-	
-	^ MateReferencePath new: pathParts asArray
-]
-
-{ #category : 'parsing' }
 MateLanguageParser >> parseSelfReferences: stream [
 
 	| refs |
 	
-	self parseIdentifier: stream. "consume 'selfReferences'"
+	self parseIdentifier: stream.
 	self skipWhitespace: stream.
 	self expect: ':' from: stream.
 	self skipWhitespace: stream.
