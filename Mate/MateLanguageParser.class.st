@@ -146,6 +146,7 @@ MateLanguageParser >> parseComplexContent: stream [
 		
 		(dict includesKey: 'array') ifTrue: [ ^ self createArrayDeclFrom: dict ].
 		(dict includesKey: 'oneOf') ifTrue: [ ^ MateInstOneOfVarDecl new options: (dict at: 'oneOf') ].
+		(dict includesKey: 'refType') ifTrue: [ ^ MateInstRefVarDecl new type: (self resolveClass: (dict at: 'refType')) ].
 		(dict includesKey: 'type') ifTrue: [ ^ self createConstrainedDeclFrom: dict ].
 		
 		^ dict
@@ -170,19 +171,28 @@ MateLanguageParser >> parseComplexType: stream [
 { #category : 'parsing' }
 MateLanguageParser >> parseDefinition: stream [
 
-	| decls |
+	| decls selfRefs pos name |
 	
 	(self match: '{' from: stream) ifFalse: [ self error: 'Expected {' ].
 	
 	decls := OrderedCollection new.
+	selfRefs := OrderedCollection new.
 	
 	[ self skipWhitespace: stream. (self match: '}' from: stream) ] whileFalse: [
-		decls add: (self parseField: stream).
+		pos := stream position.
+		name := self parseIdentifier: stream.
+		stream position: pos.
+		
+		name = 'selfReferences' ifTrue: [
+			selfRefs addAll: (self parseSelfReferences: stream).
+		] ifFalse: [
+			decls add: (self parseField: stream).
+		].
 		self skipWhitespace: stream.
-		self match: ',' from: stream. "Optional comma?"
+		self match: ',' from: stream.
 	].
 
-	^ decls
+	^ { decls. selfRefs }
 ]
 
 { #category : 'parsing' }
@@ -243,7 +253,7 @@ MateLanguageParser >> parseNumber: stream [
 { #category : 'parsing' }
 MateLanguageParser >> parseRule: stream [
 
-	| className definition type |
+	| className result definition selfRefs type |
 	
 	className := self parseIdentifier: stream.
 	self skipWhitespace: stream.
@@ -251,12 +261,64 @@ MateLanguageParser >> parseRule: stream [
 	(self expect: '->' from: stream) ifFalse: [ self error: 'Expected ->' ].
 	self skipWhitespace: stream.
 	
-	definition := self parseDefinition: stream.
+	result := self parseDefinition: stream.
 	self skipWhitespace: stream.
+	
+	definition := result first.
+	selfRefs := result second.
 	
 	type := self resolveClass: className.
 	
-	^ MateInstDecl new type: type; instanceVariableDeclarations: definition asArray
+	^ MateInstDecl new type: type; instanceVariableDeclarations: definition asArray; selfReferences: selfRefs asArray
+]
+
+{ #category : 'parsing' }
+MateLanguageParser >> parseReferencePath: stream [
+
+	| pathParts propName |
+	
+	pathParts := OrderedCollection new.
+	
+	[ self skipWhitespace: stream.
+	  stream atEnd not and: [ (stream peek ~= $}) and: [ stream peek ~= $, ] ] ] whileTrue: [
+		stream peek = $[ ifTrue: [
+			stream next. "consume ["
+			self skipWhitespace: stream.
+			self match: '.' from: stream.
+			propName := self parseIdentifier: stream.
+			self skipWhitespace: stream.
+			self match: ']' from: stream.
+			pathParts add: (MatePathEachProp from: propName).
+		] ifFalse: [
+			self match: '.' from: stream. "skip separator dot if present"
+			propName := self parseIdentifier: stream.
+			pathParts add: (MatePathProp from: propName).
+		].
+	].
+	
+	^ MateReferencePath new: pathParts asArray
+]
+
+{ #category : 'parsing' }
+MateLanguageParser >> parseSelfReferences: stream [
+
+	| refs |
+	
+	self parseIdentifier: stream. "consume 'selfReferences'"
+	self skipWhitespace: stream.
+	self expect: ':' from: stream.
+	self skipWhitespace: stream.
+	self expect: '{' from: stream.
+	
+	refs := OrderedCollection new.
+	
+	[ self skipWhitespace: stream. (self match: '}' from: stream) ] whileFalse: [
+		refs add: (self parseReferencePath: stream).
+		self skipWhitespace: stream.
+		self match: ',' from: stream.
+	].
+	
+	^ refs
 ]
 
 { #category : 'parsing' }
