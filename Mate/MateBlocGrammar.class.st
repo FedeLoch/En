@@ -7,60 +7,17 @@ Class {
 }
 
 { #category : 'accessing' }
-MateBlocGrammar >> defineGrammar [ 
-
-	^ '
-		BlElement -> {
-			children: BlChildrenArray,
-			visuals: (BlCustomVisuals | BlDefaultVisuals),
-			constraints: BlLayoutCommonConstraints
-		}.
-		
-		BlChildrenArray -> { 
-			array: { type: [ BlElement ], sizeBetween: 0 and: 10 }
-		}.
-		
-		BlCustomVisuals -> { 
-			background: (BlPaintBackground | BlTransparentBackground),
-			geometry: (BlRectangleGeometry | BlEllipseGeometry | BlTriangleGeometry),
-			clipChildren: Boolean,
-		}.
-		
-		BlLayoutCommonConstraints -> {
-			position: Point,
-			vertical: BlLayoutCommonConstraintsAxis,
-			horizontal: BlLayoutCommonConstraintsAxis
-		}.
-		
-		BlLayoutCommonConstraintsAxis -> {
-			resizer: BlLayoutExactResizer
-		}.
-		
-		BlLayoutExactResizer -> {
-			size: (SmallInteger | SmallFloat64)
-		}.
-		
-		BlPaintBackground -> {
-			paint: Color
-		}.
-		
-		BlTriangleGeometry -> {
-			orientation: { oneOf: { #top . #right . #left . #bottom } }
-		}
-	'
-	
-
-]
-
-{ #category : 'accessing' }
 MateBlocGrammar >> initialize [ 
 
 	super initialize.
 	
 	self addTypeDeclaration: (MateInstDecl new type: BlElement; instanceVariableDeclarations: { 	
 		MateInstVarDecl new name: 'children'; type: BlChildrenArray.
+		MateInstVarDecl new name: 'parent'; type: BlElement; fromReference.
 		MateInstVarDecl new name: 'visuals'; type: (BlCustomVisuals | BlDefaultVisuals).
 		MateInstVarDecl new name: 'constraints'; type: BlLayoutCommonConstraints.
+	}; selfReferences: {
+		MateReferencePath new: { 'children' . 'array' . '<each>' . 'parent' }
 	}).
 	
 	self addTypeDeclaration: (MateInstDecl new type: BlChildrenArray; instanceVariableDeclarations: {
