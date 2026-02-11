@@ -2,7 +2,8 @@ Class {
 	#name : 'MateInstDecl',
 	#superclass : 'MateTypeDecl',
 	#instVars : [
-		'instanceVariableDeclarations'
+		'instanceVariableDeclarations',
+		'selfReferences'
 	],
 	#category : 'Mate-Grammar',
 	#package : 'Mate',
@@ -40,6 +41,18 @@ MateInstDecl >> instanceVariableDeclarations [
 MateInstDecl >> instanceVariableDeclarations: decls [ 
 
 	instanceVariableDeclarations := decls
+]
+
+{ #category : 'accessing' }
+MateInstDecl >> selfReferences [
+
+	^ selfReferences
+]
+
+{ #category : 'accessing' }
+MateInstDecl >> selfReferences: references [ 
+
+	selfReferences := references
 ]
 
 { #category : 'visiting' }

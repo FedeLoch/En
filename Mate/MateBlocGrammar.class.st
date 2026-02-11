@@ -13,12 +13,10 @@ MateBlocGrammar >> initialize [
 	
 	self addTypeDeclaration: (MateInstDecl new type: BlElement; instanceVariableDeclarations: { 	
 		MateInstVarDecl new name: 'children'; type: BlChildrenArray.
-		MateInstVarDecl new name: 'parent'; type: BlElement; fromReference.
+		MateInstRefVarDecl new name: 'parent'; type: BlElement.
 		MateInstVarDecl new name: 'visuals'; type: (BlCustomVisuals | BlDefaultVisuals).
 		MateInstVarDecl new name: 'constraints'; type: BlLayoutCommonConstraints.
-	}; selfReferences: {
-		MateReferencePath new: { 'children' . 'array' . '<each>' . 'parent' }
-	}).
+	}; selfReferences: { MateReferencePath new: { MatePathProp from: 'children' . MatePathProp from: 'array' . MatePathEachProp from: 'parent' }}).
 	
 	self addTypeDeclaration: (MateInstDecl new type: BlChildrenArray; instanceVariableDeclarations: {
 		MateInstArrayVarDecl new name: 'array'; elementType: BlElement; sizeBetween: 0 and: 10.

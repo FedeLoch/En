@@ -1,8 +1,8 @@
 Class {
-	#name : 'MateReferencePath',
+	#name : 'MatePathProp',
 	#superclass : 'Object',
 	#instVars : [
-		'path'
+		'prop'
 	],
 	#category : 'Mate-Grammar',
 	#package : 'Mate',
@@ -10,13 +10,13 @@ Class {
 }
 
 { #category : 'instance creation' }
-MateReferencePath class >> new: path [
+MatePathProp class >> from: propName [
 
-	^ self new path: path
+	^ self new prop: propName
 ]
 
 { #category : 'accessing' }
-MateReferencePath >> path: aPath [ 
+MatePathProp >> prop: propName [
 
-	path := aPath
+	prop := propName
 ]
