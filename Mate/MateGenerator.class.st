@@ -160,12 +160,9 @@ MateGenerator >> visitInstanceDeclaration: decl from: context [
 	node := MateOGInstanceNode new declaration: decl; context: context.
 	childContext parentNode: node.
 	
-	"Check if we've exceeded max derivation height"
-	(childContext level >= maxDerivationHeight) ifFalse: [
-		decl instanceVariableDeclarations do: [ :instVarDecl | | edge |
-			edge := instVarDecl visit: self from: childContext constraint: nil.
-			node addEdge: edge at: instVarDecl name.
-		]
+	decl instanceVariableDeclarations do: [ :instVarDecl | | edge |
+		edge := instVarDecl visit: self from: childContext constraint: nil.
+		node addEdge: edge at: instVarDecl name.
 	].
 
 	node instance: (self objectInstance: node constraint: nil).
