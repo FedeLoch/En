@@ -32,11 +32,13 @@ MateReferencePath >> path: aPath [
 ]
 
 { #category : 'derivation' }
-MateReferencePath >> updateDerivation: node withInstance: instance [ 
+MateReferencePath >> updateDerivation: derivationNode withInstance: instance [ 
 
 	| current |
 
-	current := path allButLast inject: node into: [ :n :prop | prop fromDerivation: n ].
+	current := path allButLast inject: derivationNode into: [ :inst :prop | prop fromDerivation: inst ].
 	
-	path last insertDerivation: instance atDerivation: current.
+	current ifNil: [ ^ nil ].
+	
+	path last insertDerivation: instance atDerivation: current
 ]

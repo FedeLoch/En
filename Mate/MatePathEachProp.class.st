@@ -15,7 +15,7 @@ MatePathEachProp >> from: object [
 { #category : 'derivation' }
 MatePathEachProp >> insertDerivation: instance atDerivation: aNode [ 
 
-	aNode edges valuesDo: [ :elementNode | 
-		(elementNode edges at: prop) instance: instance 
+	aNode edges valuesDo: [ :edge |
+		edge edges at: prop ifPresent: [ (edge edges at: prop) instance: instance ]
 	]
 ]
