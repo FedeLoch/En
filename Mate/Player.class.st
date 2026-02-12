@@ -24,6 +24,12 @@ Player >> characterClass: aCharacterClass [
 	characterClass := aCharacterClass 
 ]
 
+{ #category : 'as yet unclassified' }
+Player >> damage [
+
+	^ level * (name size)
+]
+
 { #category : 'accessing' }
 Player >> level [
 
