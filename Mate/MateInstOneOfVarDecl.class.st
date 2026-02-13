@@ -116,15 +116,15 @@ MateInstOneOfVarDecl >> selectAnOption: context [
 { #category : 'as yet unclassified' }
 MateInstOneOfVarDecl >> updateReward: improvement context: context [
 
-	| key optionToReward |
+	| key option |
 
 	key := context key.
-	optionToReward := (context parentNode edges at: self name) instance.
+	option := (context parentNode edges at: self name) instance.
 
 	rewards at: key ifAbsentPut: [ Dictionary new ].
-	rewards at: key at: optionToReward ifAbsentPut: [ 1 ].
+	(rewards at: key) at: option ifAbsentPut: [ 1 ].
 	
-	(rewards at: key) at: optionToReward update: [ :reward | (reward + improvement) max: 1 ].
+	(rewards at: key) at: option update: [ :reward | (reward + improvement) max: 1 ]
 ]
 
 { #category : 'as yet unclassified' }

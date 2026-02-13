@@ -43,7 +43,7 @@ MateGenerator >> genVariant: derivation [
 MateGenerator >> initialize [ 
 
 	super initialize.
-	maxDerivationHeight := 20.
+	maxDerivationHeight := 12.
 	builtInGenerators := {
 		SmallInteger -> MateSmallIntegerGenerator new.
 		Float -> MateFloatGenerator new.

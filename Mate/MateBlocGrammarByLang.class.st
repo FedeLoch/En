@@ -39,7 +39,7 @@ MateBlocGrammarByLang >> defineObjectGraph [
 		}
 		
 		BlLayoutExactResizer -> {
-			size: { type: SmallInteger, between: 100 and: 1000 }
+			size: { type: SmallFloat64, between: 100 and: 1000 }
 		}
 		
 		BlPaintBackground -> {

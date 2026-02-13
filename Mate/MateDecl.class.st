@@ -41,9 +41,9 @@ MateDecl >> isRef [
 ]
 
 { #category : 'as yet unclassified' }
-MateDecl >> reward: context [
+MateDecl >> rewardAt: context [
 
-	rewards at: (context key) ifAbsentPut: [ 0 ].
+	rewards at: (context key) ifAbsentPut: [ 1 ].
 
 	^ rewards at: (context key)
 
@@ -75,7 +75,7 @@ MateDecl >> updateMe: parent replacingChild: child by: newChild [
 MateDecl >> updateReward: improvement context: context [
 
 	| key |
-	
+
 	key := context key.
 	rewards at: key ifAbsentPut: [ 1 ].
 

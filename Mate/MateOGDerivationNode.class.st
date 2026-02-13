@@ -45,7 +45,7 @@ MateOGDerivationNode >> context: aContext [
 { #category : 'as yet unclassified' }
 MateOGDerivationNode >> currentReward [
 
-	^ declaration reward: context
+	^ declaration rewardAt: context
 ]
 
 { #category : 'accessing' }
