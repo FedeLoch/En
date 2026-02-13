@@ -18,6 +18,12 @@ MateOGDerivationNode >> addEdge: anEdge at: key [
 	edges at: key put: anEdge
 ]
 
+{ #category : 'as yet unclassified' }
+MateOGDerivationNode >> allNodes [
+
+	^ { self }, (edges flatCollect: #allNodes)
+]
+
 { #category : 'converting' }
 MateOGDerivationNode >> asLabel [
 	
@@ -34,6 +40,12 @@ MateOGDerivationNode >> context [
 MateOGDerivationNode >> context: aContext [
 
 	context := aContext 
+]
+
+{ #category : 'as yet unclassified' }
+MateOGDerivationNode >> currentReward [
+
+	^ declaration reward: context
 ]
 
 { #category : 'accessing' }

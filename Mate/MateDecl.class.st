@@ -34,6 +34,15 @@ MateDecl >> initialize [
 	visits := Dictionary new.
 ]
 
+{ #category : 'as yet unclassified' }
+MateDecl >> reward: context [
+
+	rewards at: (context key) ifAbsentPut: [ 0 ].
+
+	^ rewards at: (context key)
+
+]
+
 { #category : 'accessing' }
 MateDecl >> type [
 

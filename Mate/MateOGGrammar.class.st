@@ -89,6 +89,12 @@ MateOGGrammar >> initialize [
 	self feedByGraphDescription.
 ]
 
+{ #category : 'as yet unclassified' }
+MateOGGrammar >> parse: object [
+
+	^ parser parse: object
+]
+
 { #category : 'accessing' }
 MateOGGrammar >> parser [
 
