@@ -73,6 +73,12 @@ MateOGGrammar >> gen: declarationObject from: context [
 	^ generator gen: declarationObject from: context
 ]
 
+{ #category : 'as yet unclassified' }
+MateOGGrammar >> genVariant: derivation [
+
+	^ generator gen: derivation declaration type from: derivation context 
+]
+
 { #category : 'accessing' }
 MateOGGrammar >> generator [
 
