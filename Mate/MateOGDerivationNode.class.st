@@ -140,8 +140,8 @@ MateOGDerivationNode >> replaceRefDeclarationsFrom: source [
 	(declaration isRef and: [ instance isNil ]) ifTrue: [
 		self instance: source instance
 	] ifFalse: [
+		edges keysDo: [ :key |
 		"Propagate to edges"
-		edges keys do: [ :key | | edge nextSource |
 			source edges at: key ifPresent: [
 				(edges at: key) replaceRefDeclarationsFrom: (source edges at: key)
 			]
