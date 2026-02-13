@@ -110,13 +110,9 @@ MateOGGrammar >> parser [
 { #category : 'as yet unclassified' }
 MateOGGrammar >> replace: node by: variant [
 
-	"
-		- I do have to update derivation path (from context) 
-		- I do have to update the instance that have the new variant instance as a inst variable
-		- What happen with instances that must to be updated with because they are references ?
-	"
-	node context parentNode replaceChild: node by: variant.
-	variant replaceRefDeclarationsFrom: node.
+	node context parentNode ifNotNil: [
+		node context parentNode replaceChild: node by: variant ].
+	variant replaceRefDeclarationsFrom: node
 ]
 
 { #category : 'accessing' }
