@@ -33,6 +33,12 @@ MateGenerator >> gen: type from: context [
 
 ]
 
+{ #category : 'as yet unclassified' }
+MateGenerator >> genVariant: derivation [ 
+	
+	^ derivation declaration visit: self from: derivation context constraint: nil
+]
+
 { #category : 'accessing' }
 MateGenerator >> initialize [ 
 
