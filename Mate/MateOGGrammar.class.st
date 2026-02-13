@@ -110,8 +110,12 @@ MateOGGrammar >> parser [
 { #category : 'as yet unclassified' }
 MateOGGrammar >> replace: node by: variant [
 
-	node context parentNode ifNotNil: [
-		node context parentNode replaceChild: node by: variant
+	| parent |
+	
+	parent := node context parentNode.
+
+	parent ifNotNil: [
+		parent replaceChild: node by: variant
 	].
 	
 	variant replaceRefDeclarationsFrom: node.

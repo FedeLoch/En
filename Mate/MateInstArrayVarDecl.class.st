@@ -71,6 +71,16 @@ MateInstArrayVarDecl >> sizeBetween: value and: anotherValue [
 	maxSize := anotherValue.
 ]
 
+{ #category : 'as yet unclassified' }
+MateInstArrayVarDecl >> updateMe: parent replacingChild: child by: newChild [
+
+	| index |
+
+	index := parent instance indexOf: child instance.
+	parent addEdge: newChild at: index.
+	parent instance at: index put: newChild instance.
+]
+
 { #category : 'visiting' }
 MateInstArrayVarDecl >> visiting: aVisitor from: context constraint: aConstraint [
 

@@ -62,6 +62,16 @@ MateDecl >> type: aType [
 ]
 
 { #category : 'as yet unclassified' }
+MateDecl >> updateMe: parent replacingChild: child by: newChild [
+
+	| edgeName |
+
+	edgeName := child declaration name.
+	parent addEdge: newChild at: edgeName.
+	parent instance instVarNamed: edgeName put: newChild instance
+]
+
+{ #category : 'as yet unclassified' }
 MateDecl >> updateReward: improvement context: context [
 
 	| key |
