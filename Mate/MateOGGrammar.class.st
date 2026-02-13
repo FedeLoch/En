@@ -115,7 +115,8 @@ MateOGGrammar >> replace: node by: variant [
 		- I do have to update the instance that have the new variant instance as a inst variable
 		- What happen with instances that must to be updated with because they are references ?
 	"
-	1 halt.
+	node context parentNode replaceChild: node by: variant.
+	variant replaceRefDeclarationsFrom: node.
 ]
 
 { #category : 'accessing' }

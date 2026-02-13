@@ -188,7 +188,7 @@ MateGenerator >> visitInstanceDeclaration: decl from: context [
 MateGenerator >> visitOneOfDecl: decl from: context [
 
 	| instance |
-	"TODO: Delete MateOGBuiltInNode and use only one node type?"
+	
 	instance := decl getOne: context.
 
 	^ MateOGBuiltInNode new declaration: decl; instance: instance; context: context
