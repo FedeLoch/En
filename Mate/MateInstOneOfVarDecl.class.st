@@ -37,14 +37,14 @@ MateInstOneOfVarDecl >> getBestRewardedOption: context [
 	
 	totalVisits := contextVisits values sum.
 	
-	options do: [ :type | | typeVisits typeReward score |
-		typeVisits := contextVisits at: type.
-		typeReward := contextRewards at: type ifAbsent: [ 1 ].
+	options do: [ :option | | typeVisits typeReward score |
+		typeVisits := contextVisits at: option.
+		typeReward := contextRewards at: option ifAbsent: [ 1 ].
 		
 		"UCT = (reward(rule) / visits(rule)) + C * sqrt(log(total_visits) / visits(rule)))"
 		score := (typeReward / typeVisits) + (explorationConstant * ((totalVisits ln / typeVisits) sqrt)).
 		
-		score > bestScore ifTrue: [ bestScore := score. bestOption := type ].
+		score > bestScore ifTrue: [ bestScore := score. bestOption := option ].
 	].
 
 	^ bestOption ifNil: [ self getOne ]
