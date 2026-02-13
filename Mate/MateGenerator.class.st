@@ -43,7 +43,7 @@ MateGenerator >> genVariant: derivation [
 MateGenerator >> initialize [ 
 
 	super initialize.
-	maxDerivationHeight := 10.
+	maxDerivationHeight := 20.
 	builtInGenerators := {
 		SmallInteger -> MateSmallIntegerGenerator new.
 		Float -> MateFloatGenerator new.
@@ -167,11 +167,9 @@ MateGenerator >> visitInstanceDeclaration: decl from: context [
 	childContext parentNode: node.
 	
 	"Check if we've exceeded max derivation height"
-	(childContext level >= maxDerivationHeight) ifFalse: [
-		decl instanceVariableDeclarations do: [ :instVarDecl | | edge |
-			edge := instVarDecl visit: self from: childContext constraint: nil.
-			node addEdge: edge at: instVarDecl name.
-		]
+	decl instanceVariableDeclarations do: [ :instVarDecl | | edge |
+		edge := instVarDecl visit: self from: childContext constraint: nil.
+		node addEdge: edge at: instVarDecl name.
 	].
 
 	node instance: (self objectInstance: node constraint: nil).
