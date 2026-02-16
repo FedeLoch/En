@@ -112,11 +112,15 @@ BlLayoutCommonConstraintsAxis -> {
 }
 
 BlLayoutExactResizer -> {
-  size: (SmallInteger | SmallFloat64)
+  size: { type: SmallFloat64, between: 100 and: 1000 }
 }
 
 BlPaintBackground -> {
-  paint: Color
+  paint: BlColorPaint
+}
+
+BlColorPaint -> {
+  color: Color
 }
 
 BlTriangleGeometry -> {
