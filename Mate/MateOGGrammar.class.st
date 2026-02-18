@@ -141,12 +141,6 @@ MateOGGrammar >> renderShapes: totalVisits [
 	^ typeDeclarations values flatCollect: [ :decl | decl renderShapes: totalVisits parent: nil ]
 ]
 
-{ #category : 'rendering' }
-MateOGGrammar >> totalVisitsAcrossDeclarations [
-
-	^ typeDeclarations values sum: [ :decl | decl totalVisits ]
-]
-
 { #category : 'as yet unclassified' }
 MateOGGrammar >> replace: node by: variant [
 
@@ -159,6 +153,12 @@ MateOGGrammar >> replace: node by: variant [
 	].
 	
 	variant replaceRefDeclarationsFrom: node.
+]
+
+{ #category : 'rendering' }
+MateOGGrammar >> totalVisitsAcrossDeclarations [
+
+	^ typeDeclarations values sum: [ :decl | decl totalVisits ]
 ]
 
 { #category : 'accessing' }

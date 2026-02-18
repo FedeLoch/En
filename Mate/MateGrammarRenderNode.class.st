@@ -1,5 +1,5 @@
 Class {
-	#name : 'MateGrammarNode',
+	#name : 'MateGrammarRenderNode',
 	#superclass : 'Object',
 	#instVars : [
 		'declaration',
@@ -14,68 +14,68 @@ Class {
 }
 
 { #category : 'accessing' }
-MateGrammarNode >> children [
+MateGrammarRenderNode >> children [
 
 	^ children
 ]
 
 { #category : 'accessing' }
-MateGrammarNode >> children: anObject [
+MateGrammarRenderNode >> children: anObject [
 
 	children := anObject
 ]
 
 { #category : 'accessing' }
-MateGrammarNode >> declaration [
+MateGrammarRenderNode >> declaration [
 
 	^ declaration
 ]
 
 { #category : 'accessing' }
-MateGrammarNode >> declaration: anObject [
+MateGrammarRenderNode >> declaration: anObject [
 
 	declaration := anObject
 ]
 
 { #category : 'initialization' }
-MateGrammarNode >> initialize [
+MateGrammarRenderNode >> initialize [
 
 	super initialize.
 	children := OrderedCollection new.
 ]
 
 { #category : 'accessing' }
-MateGrammarNode >> label [
+MateGrammarRenderNode >> label [
 
 	^ label
 ]
 
 { #category : 'accessing' }
-MateGrammarNode >> label: anObject [
+MateGrammarRenderNode >> label: anObject [
 
 	label := anObject
 ]
 
 { #category : 'accessing' }
-MateGrammarNode >> parent [
+MateGrammarRenderNode >> parent [
 
 	^ parent
 ]
 
 { #category : 'accessing' }
-MateGrammarNode >> parent: anObject [
+MateGrammarRenderNode >> parent: anObject [
 
 	parent := anObject
 ]
 
 { #category : 'accessing' }
-MateGrammarNode >> totalVisits [
+MateGrammarRenderNode >> totalVisits [
 
 	^ totalVisits
 ]
 
 { #category : 'accessing' }
-MateGrammarNode >> totalVisits: anObject [
+MateGrammarRenderNode >> totalVisits: anObject [
 
 	totalVisits := anObject
 ]

@@ -23,7 +23,7 @@ Object class >> renderShapes: totalVisits parent: parentNode [
 
 	| node label box composite |
 	
-	node := MateGrammarNode new.
+	node := MateGrammarRenderNode new.
 	node declaration: nil.
 	node label: self name.
 	node totalVisits: 0.

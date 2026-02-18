@@ -80,18 +80,6 @@ MateInstOneOfVarDecl >> initialize [
 	explorationConstant := 2.
 ]
 
-{ #category : 'accessing' }
-MateInstOneOfVarDecl >> options [
-
-	^ options
-]
-
-{ #category : 'accessing' }
-MateInstOneOfVarDecl >> options: someOptions [
-
-	options := someOptions
-]
-
 { #category : 'as yet unclassified' }
 MateInstOneOfVarDecl >> optionVisits [
 
@@ -106,6 +94,18 @@ MateInstOneOfVarDecl >> optionVisits [
 	].
 
 	^ optionVisits
+]
+
+{ #category : 'accessing' }
+MateInstOneOfVarDecl >> options [
+
+	^ options
+]
+
+{ #category : 'accessing' }
+MateInstOneOfVarDecl >> options: someOptions [
+
+	options := someOptions
 ]
 
 { #category : 'rendering' }
@@ -125,7 +125,7 @@ MateInstOneOfVarDecl >> renderShapes: totalVisits parent: parentNode [
 	optionShapes := options collect: [ :option | | node label box color composite visitsForOption |
 		visitsForOption := myVisits at: option ifAbsent: [ 0 ].
 		
-		node := MateGrammarNode new.
+		node := MateGrammarRenderNode new.
 		node declaration: self.
 		node label: option asString.
 		node totalVisits: visitsForOption.

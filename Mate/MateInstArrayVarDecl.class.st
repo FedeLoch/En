@@ -62,7 +62,7 @@ MateInstArrayVarDecl >> renderShape: totalVisits [
 
 	| label box color composite node arrayLabel |
 	
-	node := MateGrammarNode new.
+	node := MateGrammarRenderNode new.
 	node declaration: self.
 	arrayLabel := self name , ': [' , minSize asString , '..' , maxSize asString , ']'.
 	node label: arrayLabel.
@@ -108,7 +108,7 @@ MateInstArrayVarDecl >> renderShapes: totalVisits parent: parentNode [
 	].
 	
 	"Child node for element type"
-	elementNode := MateGrammarNode new.
+	elementNode := MateGrammarRenderNode new.
 	elementNode declaration: nil.
 	elementNode label: elementType name.
 	elementNode totalVisits: self totalVisits.

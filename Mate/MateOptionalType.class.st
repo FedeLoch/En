@@ -126,7 +126,7 @@ MateOptionalType >> renderShapes: totalVisits parent: parentNode [
 	^ optionTypes collect: [ :type | | node label box color composite visitsForType |
 		visitsForType := self totalVisitsFor: type.
 		
-		node := MateGrammarNode new.
+		node := MateGrammarRenderNode new.
 		node declaration: self.
 		node label: type name.
 		node totalVisits: visitsForType.

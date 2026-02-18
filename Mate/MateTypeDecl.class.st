@@ -26,7 +26,7 @@ MateTypeDecl >> renderShape: totalVisits [
 
 	| label box color composite node |
 	
-	node := MateGrammarNode new.
+	node := MateGrammarRenderNode new.
 	node declaration: self.
 	node label: self name.
 	node totalVisits: self totalVisits.
