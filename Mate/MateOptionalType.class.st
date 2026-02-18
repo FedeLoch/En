@@ -82,6 +82,22 @@ MateOptionalType >> hash [
 	^ optionTypes hash
 ]
 
+{ #category : 'rendering' }
+MateOptionalType >> heatColorFor: type [
+
+	| ratio visitsForType totalVisits |
+	
+	totalVisits := self totalVisits.
+
+	totalVisits = 0 ifTrue: [ ^ Color white ].
+	visitsForType := self totalVisitsFor: type.
+	visitsForType = 0 ifTrue: [ ^ Color white ].
+
+	ratio := visitsForType / totalVisits.
+
+	^ Color r: 1 g: 1 - ratio b: 1 - ratio
+]
+
 { #category : 'initialization' }
 MateOptionalType >> initialize [ 
 
@@ -93,9 +109,56 @@ MateOptionalType >> initialize [
 ]
 
 { #category : 'accessing' }
+MateOptionalType >> name [
+	
+	^ (optionTypes collect: #name) asOrderedCollection joinUsing: ' | '
+]
+
+{ #category : 'accessing' }
 MateOptionalType >> options: options [ 
 	
 	optionTypes addAll: options
+]
+
+{ #category : 'rendering' }
+MateOptionalType >> renderShapes [
+
+	^ (optionTypes collect: [ :type | self renderType: type ]) asOrderedCollection 
+]
+
+{ #category : 'rendering' }
+MateOptionalType >> renderType: type [
+
+	| label color box composite |
+	label := RSLabel new
+		         text: type name;
+		         color: Color black.
+	color := self heatColorFor: type.
+
+	box := RSBox new
+		       extent: label extent + (20 @ 10);
+		       cornerRadius: 5;
+		       color: color;
+		       border: (RSBorder new
+				        color: Color black;
+				        width: 1).
+
+	composite := RSComposite new
+		             model: type;
+		             shapes: {
+				             box.
+				             label };
+		             yourself.
+
+	composite @ (RSPopup new text: [ :n |
+			 String streamContents: [ :s |
+					 s
+						 nextPutAll: n class name;
+						 cr.
+					 s
+						 nextPutAll: 'Visits: ';
+						 print: (self totalVisitsFor: n) ] ]).
+	^ composite
 ]
 
 { #category : 'accessing' }
@@ -123,6 +186,20 @@ MateOptionalType >> selectAtype: context [
 
 	"Case where we can choose a type by using previous reward information"
 	^ self getBestRewardedType: context
+]
+
+{ #category : 'as yet unclassified' }
+MateOptionalType >> totalVisits [
+
+	visits values ifEmpty: [ ^ 0 ].
+
+	^ (visits values collect: [ :dict | dict values sum ]) sum
+]
+
+{ #category : 'rendering' }
+MateOptionalType >> totalVisitsFor: type [
+
+	^ (visits collect: [ :dict | (dict at: type ifPresent: [ :t | t ] ifAbsent: [ 0 ])]) sum
 ]
 
 { #category : 'visiting' }

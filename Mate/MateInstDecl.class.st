@@ -44,6 +44,12 @@ MateInstDecl >> instanceVariableDeclarations: decls [
 	instanceVariableDeclarations := decls
 ]
 
+{ #category : 'rendering' }
+MateInstDecl >> renderShapes [
+
+	^ { self renderShape } , (self instanceVariableDeclarations flatCollect: #renderShapes)
+]
+
 { #category : 'accessing' }
 MateInstDecl >> selfReferences [
 

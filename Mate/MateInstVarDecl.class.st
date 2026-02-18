@@ -61,6 +61,45 @@ MateInstVarDecl >> name: instanceVariableName [
 ]
 
 { #category : 'accessing' }
+MateInstVarDecl >> renderShape [
+
+	| label box color composite |
+	label := RSLabel new
+		         text: self name , ': ' , (self type ifNil: [ 'nil' ] ifNotNil: [ self type name ]);
+		         color: Color black.
+	color := self heatColor: self totalVisits.
+
+	box := RSBox new
+		       extent: label extent + (20 @ 10);
+		       cornerRadius: 5;
+		       color: color;
+		       border: (RSBorder new
+				        color: Color black;
+				        width: 1).
+
+	composite := RSComposite new
+		             model: self;
+		             shapes: { box . label };
+		             yourself.
+
+	composite @ (RSPopup new text: [ :n |
+			 String streamContents: [ :s |
+					 s nextPutAll: n class name; cr.
+					 s nextPutAll: 'Visits: ';
+						 print: n totalVisits ] ]).
+
+	^ composite
+]
+
+{ #category : 'accessing' }
+MateInstVarDecl >> renderShapes [
+
+	type ifNil: [ ^ { self renderShape } ].
+	
+	^ { self renderShape },  type renderShapes
+]
+
+{ #category : 'accessing' }
 MateInstVarDecl >> types [
 
 	^ type types

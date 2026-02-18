@@ -123,6 +123,12 @@ MateInstOneOfVarDecl >> selectAnOption: context [
 	^ self getBestRewardedOption: context
 ]
 
+{ #category : 'reward' }
+MateInstOneOfVarDecl >> totalVisits [
+
+	^ (visits keys collect: [ :key | (visits at: key) values sum ]) sum
+]
+
 { #category : 'as yet unclassified' }
 MateInstOneOfVarDecl >> updateReward: improvement context: context [
 

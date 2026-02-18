@@ -26,6 +26,19 @@ MateDecl >> hash [
 	^ type hash
 ]
 
+{ #category : 'as yet unclassified' }
+MateDecl >> heatColor: totalVisits [
+
+	| ratio |
+	
+	(totalVisits = 0) ifTrue: [ ^ Color white ].
+	self totalVisits = 0 ifTrue: [ ^ Color white ].
+	
+	ratio := self totalVisits / totalVisits.
+	
+	^ Color r: 1 g: (1 - ratio) b: (1 - ratio)
+]
+
 { #category : 'initialization' }
 MateDecl >> initialize [ 
 
@@ -40,6 +53,12 @@ MateDecl >> isRef [
 	^ false
 ]
 
+{ #category : 'accessing' }
+MateDecl >> renderShape [
+
+	self subclassResponsibility 
+]
+
 { #category : 'as yet unclassified' }
 MateDecl >> rewardAt: context [
 
@@ -47,6 +66,14 @@ MateDecl >> rewardAt: context [
 
 	^ rewards at: (context key)
 
+]
+
+{ #category : 'as yet unclassified' }
+MateDecl >> totalVisits [
+
+	visits values ifEmpty: [ ^ 0 ].
+
+	^ visits values sum
 ]
 
 { #category : 'accessing' }

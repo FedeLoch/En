@@ -118,7 +118,7 @@ MateOGGrammar >> render [
 	RSLineBuilder arrowedLine
 		withBorderAttachPoint;
 		canvas: canvas;
-		connectFrom: [ :e | 1 halt ].
+		connectFrom: [ :e | 1 halt.].
 
 	RSRadialTreeLayout new
 		horizontalGap: 50;
